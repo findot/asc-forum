@@ -1,0 +1,141 @@
+
+# @name register
+POST http://localhost:8080/api/auth/register HTTP/1.1
+content-type: application/json
+Accept: application/json
+
+{
+    "username": "john",
+    "password": "secret"
+}
+
+###
+
+# @name loginFailed
+POST http://localhost:8080/api/auth/login HTTP/1.1
+content-type: application/json
+Accept: application/json
+
+{
+    "username": "john",
+    "password": "notthesecret"
+}
+
+###
+
+# @name loginSuccess
+POST http://localhost:8080/api/auth/login HTTP/1.1
+content-type: application/json
+Accept: application/json
+
+{
+    "username": "john",
+    "password": "secret"
+}
+
+###
+
+@token = {{loginSuccess.response.body.$.token}}
+
+# @name getAllAccounts
+GET http://localhost:8080/api/accounts HTTP/1.1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+@token = {{loginSuccess.response.body.$.token}}
+
+# @name getSpecificAccount
+GET http://localhost:8080/api/accounts/1 HTTP/1.1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+@token = {{loginSuccess.response.body.$.token}}
+
+# @name getConnectedAccount
+GET http://localhost:8080/api/accounts/self HTTP/1.1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+@token = {{loginSuccess.response.body.$.token}}
+
+# @name getSpecificAccountPosts
+GET http://localhost:8080/api/accounts/1/posts HTTP/1.1
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+@token = {{loginSuccess.response.body.$.token}}
+
+# @name getAllPosts
+GET http://localhost:8080/api/posts
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+@token = {{loginSuccess.response.body.$.token}}
+
+# @name getOnePost
+GET http://localhost:8080/api/posts/2
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+@token = {{loginSuccess.response.body.$.token}}
+
+# @name createPost1
+POST http://localhost:8080/api/posts
+Authorization: Bearer {{token}}
+content-type: application/json
+Accept: application/json
+
+{
+    "title": "I love waffles",
+    "content": "Waffle is simply the best food around"
+}
+
+###
+
+@token = {{loginSuccess.response.body.$.token}}
+
+# @name createPost2
+POST http://localhost:8080/api/posts
+Authorization: Bearer {{token}}
+content-type: application/json
+Accept: application/json
+
+{
+    "title": "Awesome post, but better",
+    "content": "Lorem ipsum dolores sit ames, but better"
+}
+
+###
+
+@token = {{loginSuccess.response.body.$.token}}
+
+# @name getPostComments
+GET http://localhost:8080/api/posts/2/comments
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###
+
+@token = {{loginSuccess.response.body.$.token}}
+
+# @name commentPost
+POST http://localhost:8080/api/posts/2/comments
+Authorization: Bearer {{token}}
+content-type: application/json
+Accept: application/json
+
+{
+    "content": "Much agreed, I love waffles"
+}

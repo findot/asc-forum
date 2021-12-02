@@ -1,0 +1,417 @@
+openapi: '3.0.2'
+info:
+  title: Forum
+  version: '1.0'
+servers:
+  - url: http://localhost:8080/api
+
+tags:
+  - name: auth
+    description: Everything about authentication
+  - name: account
+    description: Everything about accounts
+  - name: post
+    description: Everything about posts
+  - name: comment
+    description: Everything about comments
+
+paths:
+
+  '/accounts':
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - account
+      summary: Retrieve all accounts
+      operationId: listAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+  '/accounts/{accountId}':
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - account
+      summary: Retrieve a specific account
+      operationId: getAccount
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/accounts/self':
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - account
+      summary: Retrieve the connected user account
+      operationId: getSelfAccount
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+  '/accounts/{accountId}/posts':
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - account
+        - post
+      summary: Retrieve an account posts
+      operationId: getAccountPosts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+
+  '/auth/login':
+    post:
+      tags:
+        - auth
+      summary: Login to the forum
+      requestBody:
+        description: The account credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  example: john
+                password:
+                  type: string
+                  example: secret
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                required:
+                  - token
+                properties:
+                  token:
+                    type: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/auth/register':
+    post:
+      tags:
+        - auth
+      summary: Register on the forum
+      requestBody:
+        description: The account credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  example: john
+                password:
+                  type: string
+                  example: secret
+      responses:
+        '201':
+          description: CREATED
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  '/posts':
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - post
+      summary: Retrieve all posts
+      operationId: listPosts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+    post:
+      tags:
+        - post
+      security:
+        - BearerAuth: []
+      summary: Submit a post to the forum
+      requestBody:
+        description: The post content
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+  '/posts/{postId}':
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - post
+      summary: Retrieve a specific post
+      operationId: getPost
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      security:
+        - BearerAuth: []
+      tags:
+        - post
+      summary: Delete a specific post
+      operationId: deletePost
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: FORBIDDEN
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/posts/{postId}/comments':
+    get:
+      security:
+        - BearerAuth: []
+      tags:
+        - post
+        - comment
+      summary: Retrieve a post comments
+      operationId: listPostComments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - post
+        - comment
+      security:
+        - BearerAuth: []
+      summary: Comment a post on the forum
+      requestBody:
+        description: The comment content
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/posts/{postId}/comments/{commentId}':
+    delete:
+      security:
+        - BearerAuth: []
+      tags:
+        - post
+        - comment
+      summary: Delete a specific comment
+      operationId: deleteComment
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: FORBIDDEN
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+  schemas:
+    Error:
+      type: object
+      required:
+        - code
+        - reason
+      properties:
+        code:
+          type: integer
+          format: int64
+          example: 409
+        reason:
+          type: string
+          example: "CONFLICT"
+    Account:
+      type: object
+      required:
+        - username
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 17
+        username:
+          type: string
+          example: john
+        password:
+          type: string
+          example: secret
+        posts:
+          type: array
+          items:
+            type: integer
+            format: int64
+        comments:
+          type: array
+          items:
+            type: integer
+            format: int64
+    Post:
+      type: object
+      required:
+        - title
+        - content
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 234
+        title:
+          type: string
+          example: I love waffles
+        content:
+          type: string
+          example: The waffle is simply the superior food choice
+        published:
+          type: string
+          format: date
+          example: Thu Dec 05 08:21:00 UTC 1996 
+        author:
+          type: integer
+          format: int64
+          example: 17
+        comments:
+          type: array
+          items:
+            type: integer
+            format: int64
+    Comment:
+      type: object
+      required:
+        - content
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 9821
+        content:
+          type: string
+          example: Much agreed, especially Liege waffles
+        published:
+          type: string
+          format: date
+          example: Thu Dec 05 08:21:00 UTC 1996
+        author:
+          type: integer
+          format: int64
+          example: 17
+        post:
+          type: integer
+          format: int64
+          example: 2
