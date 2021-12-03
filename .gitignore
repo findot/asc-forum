@@ -30,3 +30,6 @@ bin/**
 
 # Angular dist files
 src/resources/static/**
+
+# node
+**/node_modules

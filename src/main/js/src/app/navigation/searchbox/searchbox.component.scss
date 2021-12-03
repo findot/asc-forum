@@ -1,0 +1,12 @@
+
+#app-searchbox {
+  
+  color: #555;
+  transition: color .1s ease;
+
+  &:hover, &:focus, &:active {
+    color: black;
+    transition: color .1s ease;
+  }
+
+}

@@ -1,0 +1,23 @@
+<div class="app-searchbox">
+  <form (ngSubmit)="onSubmit()" novalidate>
+    <div class="input-group bg-light rounded-pill overflow-hidden">
+      
+      <button
+        type="submit"
+        class="btn shadow-none"
+      >
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </button>
+      
+      <input
+        type="search"
+        name="app-searchbox"
+        placeholder="Search a topic"
+        id="app-searchbox"
+        class="form-control form-input border-0 bg-light shadow-none"
+        [(ngModel)]="searched"
+      />
+
+    </div>
+  </form>
+</div>

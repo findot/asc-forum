@@ -1,0 +1,15 @@
+@use "theme";
+@use "fonts";
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+}
+
+*::selection {
+  background-color: theme.$primary;
+  color: theme.$light;
+}

@@ -1,0 +1,14 @@
+@use "../../../style/style" as s;
+
+.nav-link {
+
+  color: var(--bs-primary);
+  font-weight: bold;
+
+  &:hover, &.active {
+    color: var(--bs-primary);
+    border-bottom: 2px solid var(--bs-primary);
+    margin-bottom: -2px;
+  }
+
+}

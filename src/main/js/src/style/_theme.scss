@@ -1,0 +1,15 @@
+@use "sass:map";
+@use "variables";
+
+@forward "../../node_modules/bootstrap/scss/bootstrap.scss" with (
+  $theme-colors: variables.$theme-colors,
+  $primary: map.get(variables.$theme-colors, "primary"),
+  $secondary: map.get(variables.$theme-colors, "secondary"),
+  $dark: map.get(variables.$theme-colors, "dark"),
+  $light: map.get(variables.$theme-colors, "light"),
+  
+  $spacer: variables.$spacer,
+  
+  $input-btn-padding-y: variables.$input-btn-padding-y,
+  $input-btn-padding-x: variables.$input-btn-padding-x,
+);

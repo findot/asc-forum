@@ -1,0 +1,16 @@
+@use "sass:map";
+
+$theme-colors: (
+  "primary": #547980,
+  "secondary": #9DE0AD,
+  "success": #E5FCC2,
+  //"danger": ,
+  //"warning": ,
+  //"info": ,
+  "light": #F6F6F6,
+  "dark": #594F4F,
+);
+
+$spacer: 1.25rem;
+$input-btn-padding-y: .5rem !default;
+$input-btn-padding-x: 1rem !default;
