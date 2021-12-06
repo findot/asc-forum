@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { faBurn } from '@fortawesome/free-solid-svg-icons';
-import { Post } from '../core/models/Post';
+import { Post } from '../../../core/models/Post';
 
 
 @Component({

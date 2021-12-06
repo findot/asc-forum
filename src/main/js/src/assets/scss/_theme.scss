@@ -1,7 +1,7 @@
 @use "sass:map";
 @use "variables";
 
-@forward "../../node_modules/bootstrap/scss/bootstrap.scss" with (
+@forward "../../../node_modules/bootstrap/scss/bootstrap.scss" with (
   $theme-colors: variables.$theme-colors,
   $primary: map.get(variables.$theme-colors, "primary"),
   $secondary: map.get(variables.$theme-colors, "secondary"),
