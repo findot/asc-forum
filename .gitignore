@@ -27,6 +27,7 @@ hs_err_pid*
 
 # Binaries
 bin/**
+build/**
 
 # Angular dist files
 src/resources/static/**

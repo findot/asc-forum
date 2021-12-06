@@ -13,6 +13,7 @@ import { LoginButtonComponent } from './navigation/login-button/login-button.com
 import { FluxComponent } from './flux/flux.component';
 import { HighlightComponent } from './highlight/highlight.component';
 import { PostsComponent } from './posts/posts.component';
+import { PostComponent } from './post/post.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { PostsComponent } from './posts/posts.component';
     LoginButtonComponent,
     FluxComponent,
     HighlightComponent,
-    PostsComponent
+    PostsComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,

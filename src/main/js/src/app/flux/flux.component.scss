@@ -2,7 +2,9 @@
 
 .app-flux {
   
-  height: 100%;
+  height: calc(100% - 100px); // FIXME - Won't work on old browsers
   background: theme.$light;
+
+  overflow-y: scroll;
 
 }
