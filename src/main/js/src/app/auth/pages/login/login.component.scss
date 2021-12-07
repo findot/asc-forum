@@ -1,0 +1,20 @@
+@use '../../../../assets/scss/theme';
+
+.app-login-container {
+  
+  background: theme.$primary;
+  background: linear-gradient(45deg, theme.$primary 0%, lighten(theme.$primary, 15) 50%, theme.$primary 100%);;
+  color: theme.$light;
+  
+  height: calc(100% - 100px);
+
+}
+
+.app-login {
+
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}

@@ -69,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     ).and();
 
     http.authorizeRequests()
-      .antMatchers("/api/auth/login", "/api/auth/logout", "/api/auth/register").permitAll()
+      .antMatchers("/", "/static/**", "/api/auth/login", "/api/auth/logout", "/api/auth/register").permitAll()
       .anyRequest().authenticated();
 
     http.addFilterBefore(

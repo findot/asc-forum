@@ -1,0 +1,45 @@
+<div class="app-login-container">
+
+  <form class="app-login" style="width: 400px" (ngSubmit)="onSubmit()">
+    <div class="container">
+      <div class="row">
+        <div class="col-auto">
+          <app-logo></app-logo>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <label for="username" class="col-sm-3 fw-bold">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          [(ngModel)]="username"
+          class="form-control col-sm-9"
+        >
+      </div>
+      <div class="row mb-3">
+        <label for="password" class="col-sm-3 fw-bold">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          [(ngModel)]="password"
+          class="form-control col-sm-9"
+        >
+      </div>
+
+      <div class="row">
+        <div class="col d-flex justify-content-around">
+          <input type="submit" value="Login" class="btn btn-outline-light px-3">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col text-center p-2">
+          Don't have an account yet?
+          <a routerLink="/register" class="text-light fw-bold text-decoration-none">Register here</a>.
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

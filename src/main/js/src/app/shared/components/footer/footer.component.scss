@@ -1,0 +1,12 @@
+@use '../../../../assets/scss/theme';
+
+.app-footer-container {
+  background: theme.$dark;
+  color: theme.$light;
+
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  transform: translateY(-100%);
+  z-index: -5;
+}

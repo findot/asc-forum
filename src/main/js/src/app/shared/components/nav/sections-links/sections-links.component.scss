@@ -4,11 +4,15 @@
 
   color: var(--bs-primary);
   font-weight: bold;
+  border-bottom: 2px solid transparent;
+
+  transition: all .1s ease-out;
 
   &:hover, &.active {
     color: var(--bs-primary);
     border-bottom: 2px solid var(--bs-primary);
-    margin-bottom: -2px;
+
+    transition: all .1s ease-out;
   }
 
 }
