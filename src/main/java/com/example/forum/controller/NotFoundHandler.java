@@ -21,7 +21,7 @@ public class NotFoundHandler {
   @ExceptionHandler(NoHandlerFoundException.class)
   public ResponseEntity<String> renderDefaultPage() {
     try {
-      File indexFile = ResourceUtils.getFile("classpath:/static/index.html");
+      File indexFile = ResourceUtils.getFile("classpath:/index.html");
       FileInputStream inputStream = new FileInputStream(indexFile);
       String body = StreamUtils.copyToString(inputStream, Charset.defaultCharset());
       return ResponseEntity
