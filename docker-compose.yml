@@ -1,0 +1,41 @@
+version: "3.3"
+
+services:
+  
+  server:
+    build: .
+    hostname: asc-forum-server
+    container_name: asc-forum-server
+    ports:
+      - 8080:8080
+    links:
+      - database
+    depends_on:
+      - database
+    environment:
+      MYSQL_HOST: database
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+  database:
+    image: mariadb:latest
+    hostname: asc-forum-database
+    container_name: asc-forum-database
+    ports:
+      - 3306:3306
+    volumes:
+      - database:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    restart: unless-stopped
+
+volumes:
+  database:
