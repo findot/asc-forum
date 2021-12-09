@@ -1,14 +1,21 @@
 @use "sass:map";
 
+$primary: #547980;
+$secondary: #9DE0AD;
+$success: #E5FCC2;
+$light: #F6F6F6;
+$dark: #594F4F;
+$danger: #dc3545;
+
 $theme-colors: (
-  "primary": #547980,
-  "secondary": #9DE0AD,
-  "success": #E5FCC2,
-  //"danger": ,
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "danger": $danger,
   //"warning": ,
   //"info": ,
-  "light": #F6F6F6,
-  "dark": #594F4F,
+  "light": $light,
+  "dark": $dark,
 );
 
 $spacer: 1.25rem;

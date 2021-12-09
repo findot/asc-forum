@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.example.forum.model.account.AccountRepository;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -70,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     http.authorizeRequests()
       .antMatchers("/api/auth/login", "/api/auth/logout", "/api/auth/register").permitAll()
+      .antMatchers(HttpMethod.GET, "/api/accounts/**", "/api/posts/**").permitAll()
       .antMatchers("/api/**").authenticated()
       .antMatchers("/**").permitAll();
 
@@ -84,8 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   { return new BCryptPasswordEncoder(); }
 
   @Override @Bean
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManager();
-  }
+  public AuthenticationManager authenticationManagerBean() throws Exception
+  { return super.authenticationManager(); }
 
 }

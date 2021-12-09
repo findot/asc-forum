@@ -1,5 +1,6 @@
 package com.example.forum.auth;
 
+import com.example.forum.controller.account.EmailTakenException;
 import com.example.forum.controller.account.PseudoTakenException;
 import com.example.forum.controller.message.AccountRequest;
 import com.example.forum.model.account.Account;
@@ -22,12 +23,22 @@ public class RegistrationService {
     return accounts.findByUsername(username).isPresent();
   }
 
+  public boolean checkIfEmailIsRegistered(String email)
+  { return accounts.findByEmail(email).isPresent(); }
+
   public void register(AccountRequest accountRequest) throws PseudoTakenException {
     if (checkIfUserExist(accountRequest.getUsername()))
       throw new PseudoTakenException(accountRequest.getUsername());
     
+    if (checkIfEmailIsRegistered(accountRequest.getEmail()))
+      throw new EmailTakenException(accountRequest.getEmail());
+
     String encodedPassword = passwordEncoder.encode(accountRequest.getPassword()); 
-    Account account = new Account(accountRequest.getUsername(), encodedPassword);
+    Account account = new Account(
+      accountRequest.getUsername(),
+      accountRequest.getEmail(),  
+      encodedPassword
+    );
     
     accounts.save(account);
   }

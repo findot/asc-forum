@@ -9,4 +9,6 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
 
   public Optional<Account> findByUsername(String username);
 
+  public Optional<Account> findByEmail(String email);
+
 }

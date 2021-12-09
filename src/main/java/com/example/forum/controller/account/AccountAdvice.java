@@ -19,6 +19,13 @@ public class AccountAdvice {
   }
 
   @ResponseBody
+  @ExceptionHandler(EmailTakenException.class)
+  @ResponseStatus(HttpStatus.CONFLICT)
+  JsonError emailTakenHandler(PseudoTakenException ex) {
+    return new JsonError(409, ex.getMessage());
+  }
+
+  @ResponseBody
   @ExceptionHandler(AccountNotFoundException.class)
   @ResponseStatus(HttpStatus.NOT_FOUND)
   JsonError pseudoTakenHandler(AccountNotFoundException ex) {

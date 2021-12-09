@@ -1,10 +1,10 @@
-@use '../../../../assets/scss/theme';
+@use '../../../../assets/scss/variables' as v;
 
 .app-register-container {
   
-  background: theme.$primary;
-  background: linear-gradient(45deg, theme.$primary 0%, lighten(theme.$primary, 15) 50%, theme.$primary 100%);;
-  color: theme.$light;
+  background: v.$primary;
+  background: linear-gradient(45deg, v.$primary 0%, lighten(v.$primary, 15) 50%, v.$primary 100%);;
+  color: v.$light;
   
   height: calc(100% - 100px);
 

@@ -1,0 +1,33 @@
+<div class="row g-1 mb-2">
+  
+  <div class="col-3">
+    <label
+      [for]="id"
+      class="col-form-label fw-bold"
+    >
+      {{label}}
+    </label>
+  </div>
+
+  <div class="col-9">
+    <input
+      [type]="type"
+      [value]="value"
+      [name]="name"
+      [id]="id"
+      [disabled]="disabled"
+      [required]="required"
+
+      (change)="onChange($any($event.target).value)"
+      class="form-control"
+      [class.is-invalid] = "dirty && !valid"
+      [class.is-valid] = "dirty && valid"
+    >
+    <div
+      *ngIf="dirty && !valid"
+      class="invalid-feedback text-light">
+      {{msgInvalid}}
+    </div>
+  </div>
+
+</div>

@@ -27,6 +27,9 @@ public class Account {
   @Column(unique=true, length = 64, nullable = false)
   private String username;
 
+  @Column(unique=true, length=256, nullable = false)
+  private String email;
+
   @JsonIgnore
   @Column(length = 256, nullable = false)
   private String password;
@@ -57,23 +60,23 @@ public class Account {
 
   protected Account() {}
 
-  public Account(String username, String password)
-  { this(username, password, false); }
+  public Account(String username, String email, String password)
+  { this(username, email, password, false); }
 
-  public Account(String username, String password, boolean admin) {
+  public Account(String username, String email, String password, boolean admin) {
     this.username = username;
     this.password = password;
     this.admin = admin;
     this.closed = false;
   }
 
-
   @Override
   public String toString() {
     return String.format(
-      "Account[id=%d, username=%s]",
+      "Account[id=%d, username=%s, email=%s]",
       this.id,
-      this.username
+      this.username,
+      this.email
     );
   }
 
@@ -82,6 +85,9 @@ public class Account {
 
   public String getUsername()
   { return username; }
+
+  public String getEmail()
+  { return email; }
 
   public String getPassword()
   { return password; }

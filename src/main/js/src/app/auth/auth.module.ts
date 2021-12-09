@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LogoComponent } from './components/logo/logo.component';
+import { InputRowComponent } from './components/input-row/input-row.component';
 
 
 
@@ -16,12 +18,15 @@ import { LogoComponent } from './components/logo/logo.component';
     LoginComponent,
     RegisterComponent,
     LogoComponent,
+    InputRowComponent,
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    ReactiveFormsModule,
+    AppRoutingModule,
+    FontAwesomeModule
   ],
   exports: [
     LoginComponent,

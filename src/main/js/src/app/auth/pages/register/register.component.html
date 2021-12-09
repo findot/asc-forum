@@ -1,56 +1,111 @@
 <div class="app-register-container">
 
-  <form class="app-register" style="width: 400px" (ngSubmit)="onSubmit()">
+  <form
+    [formGroup]="form"
+    class="app-register"
+    style="width: 800px"
+    (ngSubmit)="onSubmit()"
+  >
     <div class="container">
+
       <div class="row">
-        <div class="col-auto">
-          <app-logo></app-logo>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <label for="username" class="col-sm-3 fw-bold">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          [(ngModel)]="username"
-          class="form-control col-sm-9"
-        >
+        <h3 class="fw-bold fs-2 text-center">Registration</h3>
+        <hr class="mb-4">
       </div>
 
-      <div class="row mb-3">
-        <label for="password" class="col-sm-3 fw-bold">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          [(ngModel)]="password"
-          class="form-control col-sm-9"
-        >
-      </div>
+      <div class="row">
+
+        <div class="col-8 mb-0 pb-0">
+
+          <div class="container">
+
+            <app-input-row
+              type="text"
+              label="Username"
+              name="username"
+              id="username"
+              formControlName="username"
+              msgInvalid="Username must have at least 4 characters"
+              [required]="true"
+              [valid]="username.valid"
+              [dirty]="username.dirty"
+            ></app-input-row>
+
+            <app-input-row
+              type="email"
+              label="Email"
+              name="email"
+              id="email"
+              formControlName="email"
+              msgInvalid="Please input a valid email address"
+              [valid]="email.valid"
+              [dirty]="email.dirty"
+              [required]="true"
+            ></app-input-row>
+
+            <app-input-row
+              type="password"
+              label="Password"
+              name="password"
+              id="password"
+              formControlName="password"
+              [valid]="password.valid"
+              [dirty]="password.dirty"
+              [required]="true"
+            ></app-input-row>
       
-      <div class="row mb-3">
-        <label for="password-confirmation" class="col-sm-3 fw-bold">Password confirmation</label>
-        <input
-          type="password"
-          name="password-confirmation"
-          id="password"
-          [(ngModel)]="passwordConfirmation"
-          class="form-control col-sm-9"
-        >
+            <app-input-row
+              type="password"
+              label="Confirmation"
+              name="password-confirmation"
+              id="password-confirmation"
+              formControlName="passwordConfirmation"
+              [valid]="passwordConfirmation.valid"
+              [dirty]="passwordConfirmation.dirty"
+              [required]="true"
+            ></app-input-row>
+
+          </div>
+        </div>
+
+        <div class="col-4 d-flex flex-column justify-content-center">
+          <app-logo [size]="6"></app-logo>
+        </div>
+
       </div>
 
       <div class="row">
+        <div
+          *ngIf="form.errors?.['passwordMismatch']"  
+          class="d-flex justify-space-between"
+        >
+          <div class="bg-danger mx-auto mt-3 py-1 px-3 fw-bold text-center">
+            <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+            <span class="mx-1">
+              Passwords don't match
+            </span>
+            <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+          </div>
+        </div>
+        
+        <hr class="mt-4">
         <div class="col d-flex justify-content-around">
-          <input type="submit" value="Register" class="btn btn-outline-light px-3">
+          <input
+            type="submit"
+            value="Register"
+            [disabled]="!form.valid"
+            class="btn btn-outline-light px-3"
+          >
         </div>
       </div>
 
       <div class="row">
         <div class="col text-center p-2">
-          <a routerLink="/login" class="text-light fw-bold text-decoration-none">Already have an account?</a>.
+          <a routerLink="/login" class="text-light fw-bold text-decoration-none">Already have an account ?</a>
         </div>
       </div>
+
     </div>
   </form>
+
 </div>
