@@ -1,8 +1,8 @@
-@use '../../../../assets/scss/theme';
+@use '../../../../assets/scss/variables';
 
 .app-footer-container {
-  background: theme.$dark;
-  color: theme.$light;
+  background: variables.$dark;
+  color: variables.$light;
 
   position: absolute;
   top: 100%;

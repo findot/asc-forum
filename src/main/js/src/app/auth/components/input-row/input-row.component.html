@@ -11,23 +11,27 @@
 
   <div class="col-9">
     <input
+      [formControl]="formControl"
+    
       [type]="type"
       [value]="value"
       [name]="name"
       [id]="id"
-      [disabled]="disabled"
       [required]="required"
 
-      (change)="onChange($any($event.target).value)"
       class="form-control"
-      [class.is-invalid] = "dirty && !valid"
-      [class.is-valid] = "dirty && valid"
+      [class.is-invalid] = "!formControl.pristine && !formControl.valid"
+      [class.is-valid] = "!formControl.pristine && formControl.valid"
+
+      [ngbTooltip]="error"
+      #tooltip="ngbTooltip"
+      triggers="manual"
+      [placement]="tooltipPlacement"
+      (mouseenter)="onHover(true, tooltip)"
+      (mouseleave)="onHover(false, tooltip)"
+      (hover)="onHover(true, tooltip)"
+      (focus)="onHover(true, tooltip)"
     >
-    <div
-      *ngIf="dirty && !valid"
-      class="invalid-feedback text-light">
-      {{msgInvalid}}
-    </div>
   </div>
 
 </div>

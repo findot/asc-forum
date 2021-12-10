@@ -1,16 +1,16 @@
-@use "../../../../../assets/scss/style" as s;
+@use "../../../../../assets/scss/variables";
 
 .nav-link {
 
-  color: var(--bs-primary);
+  color: variables.$primary;
   font-weight: bold;
   border-bottom: 2px solid transparent;
 
   transition: all .1s ease-out;
 
   &:hover, &.active {
-    color: var(--bs-primary);
-    border-bottom: 2px solid var(--bs-primary);
+    color: variables.$primary;
+    border-bottom: 2px solid variables.$primary;
 
     transition: all .1s ease-out;
   }

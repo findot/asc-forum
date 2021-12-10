@@ -16,8 +16,8 @@ public class AuthAdvice {
   @ResponseBody
   @ExceptionHandler(BadCredentialsException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
-  JsonError pseudoTakenHandler(BadCredentialsException ex) {
-    return new JsonError(401, ex.getMessage());
+  JsonError badCredentialsHandler(BadCredentialsException ex) {
+    return new JsonError(401, null);
   }
 
 }

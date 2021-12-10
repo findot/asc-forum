@@ -9,8 +9,16 @@
     <div class="container">
 
       <div class="row">
-        <h3 class="fw-bold fs-2 text-center">Registration</h3>
-        <hr class="mb-4">
+        <div class="col text-center p-2">
+          <h3 class="fw-bold fs-1 m-0">Registration</h3>
+          <a
+            routerLink="/login"
+            class="text-light fw-light text-decoration-none"
+          >
+            Already have an account ?
+          </a>
+          <hr class="mb-4 mt-2">
+        </div>
       </div>
 
       <div class="row">
@@ -24,11 +32,8 @@
               label="Username"
               name="username"
               id="username"
-              formControlName="username"
-              msgInvalid="Username must have at least 4 characters"
-              [required]="true"
-              [valid]="username.valid"
-              [dirty]="username.dirty"
+              [formControl]="username"
+              invalidTooltip="Username must be at least 4 characters long"
             ></app-input-row>
 
             <app-input-row
@@ -36,11 +41,8 @@
               label="Email"
               name="email"
               id="email"
-              formControlName="email"
-              msgInvalid="Please input a valid email address"
-              [valid]="email.valid"
-              [dirty]="email.dirty"
-              [required]="true"
+              [formControl]="email"
+              invalidTooltip="Please input a valid email address"
             ></app-input-row>
 
             <app-input-row
@@ -48,10 +50,8 @@
               label="Password"
               name="password"
               id="password"
-              formControlName="password"
-              [valid]="password.valid"
-              [dirty]="password.dirty"
-              [required]="true"
+              [formControl]="password"
+              invalidTooltip="Passwords don't match"
             ></app-input-row>
       
             <app-input-row
@@ -59,11 +59,23 @@
               label="Confirmation"
               name="password-confirmation"
               id="password-confirmation"
-              formControlName="passwordConfirmation"
-              [valid]="passwordConfirmation.valid"
-              [dirty]="passwordConfirmation.dirty"
-              [required]="true"
+              [formControl]="passwordConfirmation"
+              invalidTooltip="Passwords don't match"
             ></app-input-row>
+
+            <div class="row">
+              <div class="col-3"></div>
+              <div class="col">
+                <div
+                  *ngIf="!form.pristine && form.errors"
+                  class="bg-warning text-dark text-center fw-bold p-2"
+                >
+                  <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+                  <span class="mx-2">{{error}}</span>
+                  <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+                </div>
+              </div>
+            </div>
 
           </div>
         </div>
@@ -75,33 +87,42 @@
       </div>
 
       <div class="row">
-        <div
-          *ngIf="form.errors?.['passwordMismatch']"  
-          class="d-flex justify-space-between"
-        >
-          <div class="bg-danger mx-auto mt-3 py-1 px-3 fw-bold text-center">
-            <fa-icon [icon]="faExclamationTriangle"></fa-icon>
-            <span class="mx-1">
-              Passwords don't match
-            </span>
-            <fa-icon [icon]="faExclamationTriangle"></fa-icon>
-          </div>
-        </div>
-        
         <hr class="mt-4">
         <div class="col d-flex justify-content-around">
-          <input
-            type="submit"
-            value="Register"
-            [disabled]="!form.valid"
-            class="btn btn-outline-light px-3"
+          <div
+            ngbTooltip="Please fill out the form before to proceed"
+            placement="bottom"
+            triggers="manual"
+            #submitTooltip="ngbTooltip"
+            (mouseenter)="handleSubmitHover(true, submitTooltip)"
+            (mouseleave)="handleSubmitHover(false, submitTooltip)"
           >
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col text-center p-2">
-          <a routerLink="/login" class="text-light fw-bold text-decoration-none">Already have an account ?</a>
+            <button
+              type="submit"
+              [disabled]="!processing && !form.valid"
+              
+              class="btn btn-submit px-5 fw-bold"
+              
+              [class.btn-outline-light]="!form.valid"
+              
+              [class.btn-light]="!processing && form.valid"
+              [class.text-primary]="!processing && form.valid"
+              [class.submission-loading]="submissionLoading"
+              [class.submission-success]="submissionSuccess"
+              [class.submission-error]="submissionError"
+            >
+              <span *ngIf="submissionLoading">Loading...</span>
+              <span *ngIf="submissionSuccess">
+                <fa-icon [icon]="faCheck"></fa-icon>
+              </span>
+              <span *ngIf="submissionError">
+                <fa-icon [icon]="faTimes"></fa-icon>
+              </span>
+              <span *ngIf="!processing">
+                Register
+              </span>
+            </button>
+          </div>
         </div>
       </div>
 

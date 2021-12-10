@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { User } from '../models/User';
+import { RequestFailure } from '../models/RequestFailure';
 
 
 @Injectable({
@@ -10,7 +11,7 @@ import { User } from '../models/User';
 })
 export class AuthService {
 
-  endpoint: string = 'http://localhost:8080/api/auth'
+  endpoint: string = '/api/auth'
 
   private token?: string;
 
@@ -31,8 +32,13 @@ export class AuthService {
       throw new Error("Already connected");
     
     return this.httpClient
-      .post(`${this.endpoint}/login`, user)
-      .pipe(map(_ => true), catchError(_ => of(false)));
+      .post(`${this.endpoint}/register`, user)
+      .pipe(map(_ => ({ success: true })), catchError(this.onRegisterError));
+  }
+
+  public onRegisterError(errorResponse: HttpErrorResponse) {
+    const error: RequestFailure = errorResponse.error as RequestFailure;
+    return of(error);
   }
 
   public connected(): boolean

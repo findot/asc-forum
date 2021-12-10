@@ -1,9 +1,9 @@
-@use "../../../../assets/scss/theme";
+@use "../../../../assets/scss/variables";
 
 .app-flux {
   
   height: calc(100% - 100px); // FIXME - Won't work on old browsers
-  background: theme.$light;
+  background: variables.$light;
 
   overflow-y: scroll;
 

@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.example.forum.model.comment.Comment;
 import com.example.forum.model.post.Post;
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+@Table(name = "users")
 public class Account {
   
   @Id
@@ -65,6 +67,7 @@ public class Account {
 
   public Account(String username, String email, String password, boolean admin) {
     this.username = username;
+    this.email = email;
     this.password = password;
     this.admin = admin;
     this.closed = false;

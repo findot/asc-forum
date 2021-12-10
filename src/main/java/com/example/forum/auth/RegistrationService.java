@@ -26,7 +26,9 @@ public class RegistrationService {
   public boolean checkIfEmailIsRegistered(String email)
   { return accounts.findByEmail(email).isPresent(); }
 
-  public void register(AccountRequest accountRequest) throws PseudoTakenException {
+  public void register(AccountRequest accountRequest)
+    throws PseudoTakenException, EmailTakenException
+  {
     if (checkIfUserExist(accountRequest.getUsername()))
       throw new PseudoTakenException(accountRequest.getUsername());
     

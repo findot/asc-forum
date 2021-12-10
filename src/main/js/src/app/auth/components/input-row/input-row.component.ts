@@ -1,5 +1,7 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
 @Component({
   selector: 'app-input-row',
@@ -13,7 +15,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, ValidationErr
     }
   ]
 })
-export class InputRowComponent<T> implements OnInit {
+export class InputRowComponent<T> implements OnInit, ControlValueAccessor {
 
   private _value?: T; // Internal value
 
@@ -32,16 +34,17 @@ export class InputRowComponent<T> implements OnInit {
 
   /* Props */
   @Input() type:        string  = 'text';
-  @Input() required:    boolean = false;
+  @Input() required:    boolean = true;
   @Input() name!:       string;
   @Input() label!:      string;
   @Input() id!:         string;
 
-  @Input() valid:       boolean = true;
-  @Input() dirty:       boolean = false;
+  @Input() formControl!: FormControl;
   @Input() msgInvalid?: string;
 
-  constructor() { }
+  constructor(
+    private errorHandlerService: ErrorHandlerService
+  ) { }
 
   ngOnInit(): void {}
 
@@ -61,6 +64,25 @@ export class InputRowComponent<T> implements OnInit {
 
   setDisabledState(isDisabled: boolean) {
     this.disabled = isDisabled;
+  }
+
+  // Tooltip handling
+  @Input() invalidTooltip?: string;
+  @Input() tooltipPlacement: string = 'top';
+
+  onHover(inout: boolean, tooltip: NgbTooltip) {
+    if (!inout && tooltip.isOpen())
+      return tooltip.close();
+    if (inout && !this.formControl.pristine && !this.formControl.valid)
+      tooltip.open();
+  }
+
+  get error(): string | null {
+    return this.formControl.errors
+      ? this.errorHandlerService.validationMessage(
+        this.label, this.formControl.errors
+      )
+      : null;
   }
 
 }

@@ -18,3 +18,38 @@
   transform: translate(-50%, -50%);
 
 }
+
+
+.btn-submit {
+  transition: .1s ease-in;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, .1);
+  &:not(:disabled) {
+    transform: scale(1.1);
+    box-shadow: 0 10px 5px rgba(0, 0, 0, .2);
+    transition: .1s ease-out;
+    animation: bounce .5s;
+  }
+}
+
+.submission {
+  
+  &-loading, &-success, &-error {
+    border: none;
+    animation: bounce .5s;
+  }
+
+  &-loading {
+    background: v.$light;
+  }
+
+  &-success {
+    background: v.$success;
+    color: v.$light;
+  }
+
+  &-error {
+    background: v.$danger;
+    color: v.$light;
+  }
+
+} 
