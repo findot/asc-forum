@@ -67,7 +67,6 @@ export class InputRowComponent<T> implements OnInit, ControlValueAccessor {
   }
 
   // Tooltip handling
-  @Input() invalidTooltip?: string;
   @Input() tooltipPlacement: string = 'top';
 
   onHover(inout: boolean, tooltip: NgbTooltip) {
