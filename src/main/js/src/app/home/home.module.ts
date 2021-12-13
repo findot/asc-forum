@@ -13,6 +13,7 @@ import { SharedModule } from '../shared/components/shared.module';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
 import { AppRoutingModule } from '../app-routing.module';
+import { CommentComponent } from './components/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AppRoutingModule } from '../app-routing.module';
     PostsComponent,
     PostComponent,
     CreatePostComponent,
-    PostPageComponent
+    PostPageComponent,
+    CommentComponent
   ],
   exports: [
     HomeComponent

@@ -107,4 +107,14 @@ export class ApiService {
 
     return res;
   }
+
+  public postComment(postId: number, content: string) {
+    if (!this.authService.connected())
+      throw new Error('Not connected');
+    const rq = this.post<Comment, Comment>(`${this.url}/posts/${postId}/comments`, { content });
+    return rq.pipe(map(comment => {
+      this.comments.get(postId)?.set(comment.id!, comment);
+      return comment;
+    }));
+  }
 }

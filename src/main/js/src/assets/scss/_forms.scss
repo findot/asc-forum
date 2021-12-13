@@ -1,5 +1,6 @@
 @use "sass:color";
 
+@use "variables";
 @use "theme";
 @use "fonts";
 @use "animations";
@@ -7,9 +8,9 @@
 
 form.light {
   
-  $untouched: color.scale(theme.$light, $alpha: -30%);
-  $valid: theme.$light;
-  $invalid: theme.$warning;
+  $untouched: color.scale(variables.$light, $alpha: -30%);
+  $valid: variables.$light;
+  $invalid: variables.$warning;
 
   label {
 
@@ -43,6 +44,7 @@ form.light {
   .ng-invalid:not(.ng-pristine) {
     label {
       background: $invalid;
+      color: variables.$light;
       transition: .2s ease;
     }
 

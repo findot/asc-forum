@@ -3,15 +3,18 @@
 >
   <div class="card-body">
     <form (submit)="onSubmit()">
-      <input
-        autocomplete="off"
-        [(ngModel)]="title"
-        type="text"
-        name="title"
-        id="title"
-        placeholder="What's on your mind?"
-        class="form-control bg-light rounded-pill border-0"
-      >
+      <div class="input-group title bg-light rounded-pill overflow-hidden">
+        <fa-icon [icon]="faICursor" class="py-2 px-3"></fa-icon>
+        <input
+          autocomplete="off"
+          [(ngModel)]="title"
+          type="text"
+          name="title"
+          id="title"
+          placeholder="What's on your mind?"
+          class="form-control form-input border-0 d-inline bg-light shadow-none"
+        >
+      </div>
 
       <div class="submission-complete px-1">
         <textarea

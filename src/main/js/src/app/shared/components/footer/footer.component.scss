@@ -3,10 +3,4 @@
 .app-footer-container {
   background: variables.$dark;
   color: variables.$light;
-
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  transform: translateY(-100%);
-  z-index: -5;
 }

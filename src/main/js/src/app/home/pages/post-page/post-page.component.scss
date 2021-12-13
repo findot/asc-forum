@@ -1,0 +1,13 @@
+.post-page {
+  height: calc(100% - 98px); // nav = 98 px, footer = 80px
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  margin-right: 1px;
+}
+
+.comment-zone {
+  overflow-y: scroll;
+}

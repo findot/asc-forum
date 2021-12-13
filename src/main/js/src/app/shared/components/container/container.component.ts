@@ -23,8 +23,11 @@ export class ContainerComponent implements OnInit {
   @Input() @CoerceBoolean() xxl !: boolean | string;
   @HostBinding("class.container-xxl") get _xxl() { return this.xxl; }
 
+  @Input() @CoerceBoolean() fluid !: boolean | string;
+  @HostBinding("class.container-fluid") get _fluid() { return this.fluid; }
+
   private get spans(): boolean[] {
-    const keys: (keyof this)[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+    const keys: (keyof this)[] = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl', 'fluid'];
     return keys.map(k => Boolean(this[k]));
   }
 

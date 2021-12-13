@@ -8,8 +8,7 @@
     overflow: hidden;
   }
 
-  &:focus-within .submission-complete,
-  input:not(:placeholder-shown) + .submission-complete {
+  &:focus-within .submission-complete {
     max-height: 800px;
     transition: max-height .15s ease-out;
   }

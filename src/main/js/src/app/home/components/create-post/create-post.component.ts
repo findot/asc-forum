@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
+import { faICursor, faInfoCircle, faItalic } from '@fortawesome/free-solid-svg-icons';
 import { ApiService } from 'src/app/core/services/api.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -11,20 +12,24 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class CreatePostComponent implements OnInit {
 
   faInfoCircle = faInfoCircle;
+  faICursor = faICursor;
 
   title: string = '';
   content: string = '';
 
   constructor(
     private apiService: ApiService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-    this.apiService.createPost({ title: this.title, content: this.content });
+    this.apiService.createPost({ title: this.title, content: this.content }).subscribe(
+      post => this.router.navigate(["post", post.id])
+    )
   }
 
   get connected(): boolean {

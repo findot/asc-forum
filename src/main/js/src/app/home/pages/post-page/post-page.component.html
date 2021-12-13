@@ -1,7 +1,65 @@
-<container sm>
-  <row>
-    <column>
-      Post page
-    </column>
-  </row>
-</container>
+<div class="post-page">
+  <container
+    fluid
+    class="bg-primary text-light pb-3"
+  >
+    <row><column><container sm>
+      <row [y-gutter]="1" class="align-items-end">
+        <column [size]="12" class="pt-3">
+          <div class="text-secondary">Posted by {{author?.username}} {{dateString}}</div>
+        </column>
+        <column [size]="10">
+          <h1 class="m-0">{{post?.title}}</h1>
+        </column>
+        <column [size]="2" class="text-end">
+          <span class="fs-2 px-2">{{comments?.length}}</span>
+          <fa-icon [icon]="faComment" size="2x"></fa-icon>
+        </column>
+        <column [size]="12">
+          <p style="text-align: justify;">{{post?.content}}</p>
+        </column>
+      </row>
+    </container></column></row>
+  </container>
+
+  <container class="comment-zone bg-white pb-3">
+    <row>
+      <column [size]="12" class="py-3">
+        <form (submit)="onSubmit()">
+          <div class="card border-0">
+            <div class="card-body">
+              <div class="input-group title bg-light rounded-pill overflow-hidden">
+                <fa-icon [icon]="faICursor" class="py-2 px-3"></fa-icon>
+                <input
+                  [(ngModel)]="userComment"
+                  autocomplete="off"
+                  type="text"
+                  name="comment"
+                  id="comment"
+                  placeholder="What are your thoughts?"
+                  class="form-control form-input border-0 d-inline bg-light shadow-none"
+                >
+                <button
+                  [disabled]="userComment.length === 0"
+                  type="submit"
+                  class="btn btn-primary"
+                >Comment</button>
+                <button
+                  [disabled]="userComment.length === 0"  
+                  class="btn btn-danger"
+                  style="padding-right: 1.2rem;"
+                  (click)="onClear()"
+                >
+                  <fa-icon [icon]="faTimes">
+                </fa-icon></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </column>
+      <column [size]="12" *ngFor="let comment of comments" class="px-4">
+        <app-comment [comment]="comment"></app-comment>
+      </column>
+    </row>
+  </container>
+</div>

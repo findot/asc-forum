@@ -15,6 +15,10 @@ body {
   background: theme.$light;
 }
 
+p, h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Slab', serif;
+}
+
 *::selection {
   background-color: theme.$primary;
   color: theme.$light;
