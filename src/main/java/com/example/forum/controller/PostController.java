@@ -1,6 +1,8 @@
 package com.example.forum.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +20,7 @@ import com.example.forum.controller.post.PostNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,14 +41,20 @@ public class PostController {
   public PostController(PostRepository posts, CommentRepository comments)
   { this.posts = posts; this.comments = comments; }
 
+  @CrossOrigin(origins = "*")
   @GetMapping("")
   public List<Post> all() {
     List<Post> postsReturned = new ArrayList<Post>();
     for (Post post : posts.findAll())
       postsReturned.add(post);
+    postsReturned.sort((a, b) -> Long.compare(
+      b.getPublished().getTime(),
+      a.getPublished().getTime()
+    ));
     return postsReturned;
   }
 
+  @CrossOrigin(origins = "*")
   @PostMapping("")
   @ResponseStatus(code = HttpStatus.CREATED)
   public Post create(@RequestBody PostRequest newPost) {

@@ -1,26 +1,21 @@
-<div class="highlight container p-3">
-  
-  <div class="row">
-    <div class="col">
-      <h3 class="text-primary fw-bold pt-3 pb-2">
-        <fa-icon [icon]="faDove" class="p-2"></fa-icon>
-        <span>Highlights</span>
-      </h3>
-      <hr>
-    </div>
-  </div>
+<container sm class="highlight p-3">
 
-  <div class="row">
-    <div class="col-3" *ngFor="let highlight of highlights">
-      <div class="card" style="height: 210px">
+  <row [y-gutter]="2">
+    <column [size]="{ base: 12, md: 6, lg: 3}" *ngFor="let highlight of highlights">
+      <div class="card text-center border-0 shadow-sm rounded" style="min-height: 300px">
+        <div class="card-header">
+          Featured
+        </div>
         <div class="card-body">
           <h5 class="card-title">{{highlight.title}}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">by {{highlight.author.pseudo}}</h6>
           <p class="card-text">{{highlight.content}}</p>
-          <a href="/posts/{{highlight.id}}" class="card-link">See this post</a>
+          <a href="/posts/{{highlight.id}}" class="btn btn-primary">See this post</a>
+        </div>
+        <div class="card-footer text-muted">
+          2 days ago
         </div>
       </div>
-    </div>
-  </div>
+    </column>
+  </row>
 
-</div>
+</container>

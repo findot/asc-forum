@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { FluxComponent } from './components/flux/flux.component';
@@ -8,7 +8,11 @@ import { HighlightComponent } from './components/highlight/highlight.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { PostComponent } from './components/post/post.component';
 
-import { HomeComponent } from './home.component';
+import { HomeComponent } from './pages/home.component';
+import { SharedModule } from '../shared/components/shared.module';
+import { CreatePostComponent } from './components/create-post/create-post.component';
+import { PostPageComponent } from './pages/post-page/post-page.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +20,9 @@ import { HomeComponent } from './home.component';
     FluxComponent,
     HighlightComponent,
     PostsComponent,
-    PostComponent
+    PostComponent,
+    CreatePostComponent,
+    PostPageComponent
   ],
   exports: [
     HomeComponent
@@ -24,7 +30,10 @@ import { HomeComponent } from './home.component';
   imports: [
     CommonModule,
     FormsModule,
-    FontAwesomeModule
+    ReactiveFormsModule,
+    FontAwesomeModule,
+    SharedModule,
+    AppRoutingModule
   ]
 })
 export class HomeModule { }

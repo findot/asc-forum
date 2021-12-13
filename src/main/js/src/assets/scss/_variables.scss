@@ -7,6 +7,7 @@ $light: #F6F6F6;
 $dark: #594F4F;
 $danger: #dc3545;
 $warning: #fd7e14;
+$info: #0d6efd;
 
 $theme-colors: (
   "primary": $primary,
@@ -14,7 +15,7 @@ $theme-colors: (
   "success": $success,
   "danger": $danger,
   "warning": $warning,
-  //"info": ,
+  "info": $info,
   "light": $light,
   "dark": $dark,
 );

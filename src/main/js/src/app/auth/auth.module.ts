@@ -11,7 +11,6 @@ import { SharedModule } from '../shared/components/shared.module';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LogoComponent } from './components/logo/logo.component';
-import { InputRowComponent } from './components/input-row/input-row.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 
 
@@ -21,7 +20,6 @@ import { LogoutComponent } from './pages/logout/logout.component';
     LoginComponent,
     RegisterComponent,
     LogoComponent,
-    InputRowComponent,
     LogoutComponent,
   ],
   imports: [

@@ -31,6 +31,9 @@ export class AuthService extends StoredService {
     return this.token!;
   }
 
+  public connected(): boolean
+  { return this.token !== null && this.token !== undefined; }
+
   public login(username: string, password: string) {
     const rq = this.httpClient.post<{ token: string }>(
       `${this.endpoint}/login`,
@@ -68,9 +71,6 @@ export class AuthService extends StoredService {
     const error: RequestFailure = errorResponse.error as RequestFailure;
     return of(error);
   }
-
-  public connected(): boolean
-  { return this.token !== null && this.token !== undefined; }
 
   private setupRefreshLoop(): void {
     if (!this.connected())

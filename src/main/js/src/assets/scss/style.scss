@@ -19,3 +19,7 @@ body {
   background-color: theme.$primary;
   color: theme.$light;
 }
+
+container, row, column {
+  display: block; // ?
+}

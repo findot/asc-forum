@@ -1,8 +1,29 @@
-<div class="card post-card mb-3">
+<div class="card post-card border-0 shadow-sm rounded">
+  <div class="card-header">
+    <container class="p-0">
+      <row class="align-items-center">
+        <column>
+          <h5 class="fs-5 fw-bold m-0 d-inline-block">{{post.title}}</h5>
+          <span class="px-2 text-info">
+            {{post.comments?.length || 0}}
+            <fa-icon [icon]="faComment" class="pl-2"></fa-icon>
+          </span>
+        </column>
+      </row>
+      <row>
+        <column class="text-left" [size]="8">
+          <span class="text-muted">By {{author?.username}}, {{dateString}}</span>
+        </column>
+        <column class="text-end" [size]="4">
+          <a
+            [routerLink]="['/post', post.id]"
+            class="btn btn-outline-info py-0 px-1"
+          >See this post</a>
+        </column>
+      </row>
+    </container>
+  </div>
   <div class="card-body">
-    <h5 class="card-title">{{post.title}}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">by {{post.author?.pseudo}}</h6>
     <p class="card-text">{{post.content}}</p>
-    <a href="/posts/{{post.id}}" class="card-link">See this post</a>
   </div>
 </div>

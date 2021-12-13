@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { faBurn } from '@fortawesome/free-solid-svg-icons';
 import { Post } from '../../../core/models/Post';
 
@@ -12,28 +12,28 @@ export class PostsComponent implements OnInit {
 
   faBurn = faBurn;
 
-  posts: Post[] = [
+  @Input() posts: Post[] = [
     {
       id: 2,
-      author: { id: 1, pseudo: "John" },
+      author: { id: 1, username: "John" },
       title: "Thanos did nothing wrong",
       content: "He sought to bring balance, as we all should"
     },
     {
       id: 41,
-      author: { id: 2, pseudo: "Lucie" },
+      author: { id: 2, username: "Lucie" },
       title: "Spiderman new suit is busted",
       content: "His strengths should come from his powers, not hit suit"
     },
     {
       id: 325,
-      author: { id: 3, pseudo: "Gabriel" },
+      author: { id: 3, username: "Gabriel" },
       title: "Are Tony Stark and John Snow part of the same family?",
       content: "It's confusing"
     },
     {
       id: 54,
-      author: { id: 4, pseudo: "Marie" },
+      author: { id: 4, username: "Marie" },
       title: "Who are those worthy to wield Mjolnir?",
       content: "We know of Thor and Vision, who else?"
     },

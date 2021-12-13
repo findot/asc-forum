@@ -1,0 +1,32 @@
+.post-creation-hint {
+
+  overflow: hidden;
+
+  .submission-complete {
+    max-height: 0px;
+    transition: max-height .15s ease-in;
+    overflow: hidden;
+  }
+
+  &:focus-within .submission-complete,
+  input:not(:placeholder-shown) + .submission-complete {
+    max-height: 800px;
+    transition: max-height .15s ease-out;
+  }
+
+  /*
+  textarea {
+    display: block;
+  }
+
+  &:focus-within textarea,
+  input:not(:placeholder-shown) + textarea {
+    animation: grow .5s ease-out .1s normal forwards;
+  }
+
+  &:focus-within .submission,
+  input:not(:placeholder-shown) + textarea + .submission {
+  }
+  */
+
+}

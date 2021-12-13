@@ -1,17 +1,40 @@
-<div class="app-flux">
-  <div class="container">
+<div class="app-flux py-5">
+  <container>
     
-    <div class="row">
-      <div class="col">
+    <row>
+      <column>
+        <h3 class="text-primary fw-bold pt-3 pb-2">
+          <fa-icon [icon]="faStar" class="p-2"></fa-icon>
+          <span>Highlights</span>
+        </h3>
+        <hr>
         <app-highlight></app-highlight>
-      </div>
-    </div>
+      </column>
+    </row>
 
-    <div class="row">
-      <div class="col">
-        <app-posts></app-posts>
-      </div>
-    </div>
+    <row>
+      <column>
+        
+        <h3 class="text-primary fw-bold pt-3 pb-2">
+          <fa-icon [icon]="faBurn" class="p-2"></fa-icon>
+          <span>Trending</span>
+        </h3>
+        <hr>
+        
+        <container>
+          <row [y-gutter]="3">
+            <column [size]="12">
+              <app-create-post></app-create-post>
+            </column>
 
-  </div>
+            <column [size]="12" *ngFor="let post of posts">
+              <app-post [post]="post"></app-post>
+            </column>
+          </row>
+        </container>
+        
+      </column>
+    </row>
+  
+  </container>
 </div>

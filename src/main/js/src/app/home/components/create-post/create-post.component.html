@@ -1,0 +1,48 @@
+<div
+  class="card post-creation-hint border-0 shadow-sm rounded"
+>
+  <div class="card-body">
+    <form (submit)="onSubmit()">
+      <input
+        autocomplete="off"
+        [(ngModel)]="title"
+        type="text"
+        name="title"
+        id="title"
+        placeholder="What's on your mind?"
+        class="form-control bg-light rounded-pill border-0"
+      >
+
+      <div class="submission-complete px-1">
+        <textarea
+          [(ngModel)]="content"
+          autocomplete="off"
+          name="content"
+          id="content"
+          cols="30"
+          rows="5"
+          class="form-control bg-light mt-2 border-0"
+          placeholder="Text"
+        ></textarea>
+        <row class="submission">
+          <column [size]="{ base: 12, md: 9, lg: 10 }">
+            <p *ngIf="!connected" class="text-warning pt-2">
+              <fa-icon [icon]="faInfoCircle"></fa-icon>
+              You must be connected to post something
+            </p>
+          </column>
+          <column [size]="{ base: 12, md: 3, lg: 2 }" class="mt-2">
+            <button
+              type="submit"
+              class="btn btn-outline-primary form-control fw-bold rounded-pill"
+              [disabled]="!connected"
+            >
+              Post
+            </button>
+          </column>
+        </row>
+      </div>
+
+    </form>
+  </div>
+</div>

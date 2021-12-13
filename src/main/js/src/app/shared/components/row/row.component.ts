@@ -25,13 +25,13 @@ export class RowComponent extends SizedComponent {
   { return this.getSized('cols', 'row'); }
 
   private get cssGutter(): string
-  { return this.getSized('xGutter', '', 'g'); }
+  { return this.getSized('gutter', '', 'g'); }
 
   private get cssXGutter(): string
-  { return this.getSized('gutter', '', 'gx'); }
+  { return this.getSized('xGutter', '', 'gx'); }
 
   private get cssYGutter(): string
-  { return this.getSized('gutter', '', 'gy'); }
+  { return this.getSized('yGutter', '', 'gy'); }
 
 }
 
