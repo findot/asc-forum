@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { faExclamationTriangle, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';          
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
-import { RequestFailure } from 'src/app/core/models/RequestFailure';
+import { RequestFailure, Submission } from 'src/app/core/models/Async';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 
@@ -46,15 +46,7 @@ export class RegisterComponent implements OnInit {
     passwordConfirmation: ['', [Validators.required, Validators.minLength(8)]]
   }, { validators: passwordMatchValidator });
 
-  /* Flag set to true when we're waiting for a server response after
-   * submitting the form */
-  submissionLoading: boolean      = false;
-  /* Flag set to true when the form submission succeeded */
-  submissionSuccess: boolean      = false;
-  /* Flag set to true when the form submission failed */
-  /* Controls for how long the submission status (succes / error) will be shown
-   * on the UI before to reset to default behavior */
-  submissionError: boolean        = false;
+  submission: Submission<null> | null = null;
   submissionStateTransitionTimer  = 4000;
 
   // CTOR
@@ -105,7 +97,7 @@ export class RegisterComponent implements OnInit {
 
   // Whether we're currently waiting for a backend response, or not
   get processing(): boolean {
-    return this.submissionLoading || this.submissionSuccess || this.submissionError;
+    return this.submission !== null;
   }
 
   // METHODS
@@ -121,7 +113,7 @@ export class RegisterComponent implements OnInit {
     this.passwordConfirmation.reset();
     this.passwordConfirmation.markAsPristine();
 
-    this.submissionLoading = true;
+    this.submission = { kind: 'loading', message: '' };
     
     this.authService
       .register(userRegistration)
@@ -129,20 +121,20 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmissionResponse(response: RequestFailure | { success: boolean }) {
-    this.submissionLoading = false;
 
     if ('success' in response) {
     
-      this.submissionSuccess = true;
+      this.submission = { kind: 'succeeded', payload: null };
       
       const timeout = setTimeout(() => {
+        this.submission = null;
         this.router.navigate(['login']);
         clearTimeout(timeout);
       }, this.submissionStateTransitionTimer);
     
     } else {
-    
-      this.submissionError = true;
+      
+      this.submission = { kind: 'failed', reason: response };
 
       if (response.reason.email)
         this.email.setErrors({ 'reserved': true })
@@ -150,7 +142,7 @@ export class RegisterComponent implements OnInit {
         this.username.setErrors({ 'reserved': true })
       
       const timeout = setTimeout(() => {
-        this.submissionError = false;
+        this.submission = null;
         clearTimeout(timeout);
       }, this.submissionStateTransitionTimer);
     
@@ -162,7 +154,7 @@ export class RegisterComponent implements OnInit {
   handleSubmitHover(inout: boolean, tooltip: NgbTooltip) {
     if (!inout && tooltip.isOpen())
       return tooltip.close();
-    if (inout && !this.form.valid)
+    if (inout && !this.form.valid && !this.processing)
       tooltip.open();
   }
   

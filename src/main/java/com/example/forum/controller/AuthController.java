@@ -57,11 +57,13 @@ public class AuthController {
   { registration.register(accountData); }
 
   @GetMapping(path = "/refresh")
-  public String refresh()
+  public AuthResponse refresh()
   {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     Account account = ((AuthUserDetails) auth.getPrincipal()).getAccount();
-    return jwt.create(account.getUsername(), account.isAdmin());
+    return new AuthResponse(
+      jwt.create(account.getUsername(), account.isAdmin())
+    );
   }
 
 }

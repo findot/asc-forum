@@ -1,51 +1,75 @@
 <div class="app-login-container">
 
-  <form class="app-login" style="width: 400px" (ngSubmit)="onSubmit()">
-    <div class="container">
-      <div class="row">
-        <div class="col-auto">
-          <app-logo></app-logo>
-        </div>
-      </div>
-      <div class="row mb-3">
-        <label for="username" class="col-sm-3 fw-bold">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          [(ngModel)]="username"
-          class="form-control col-sm-9"
+  <form
+    class="app-login px-3"
+    style="max-width: 400px"
+    (ngSubmit)="onSubmit()"
+  >
+    <container>
+      
+      <row>
+        <column
+          [size]="{ base: 12, xs: 8, sm: 6 }"
+          [offset]="{ base: 0, xs: 2, sm: 3 }"
         >
-      </div>
-      <div class="row mb-3">
-        <label for="password" class="col-sm-3 fw-bold">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          [(ngModel)]="password"
-          class="form-control col-sm-9"
-        >
-      </div>
+          <app-auth-logo></app-auth-logo>
+        </column>
+      </row>
 
-      <div *ngIf="accessDenied" class="row mb-3">
-        <div class="col text-center fw-bold">
+      <row><column>
+        <hr class="my-2">
+      </column></row>
+
+      <row class="my-1">
+        <column>
+          <label for="username" class="fw-bold">Username</label>
+          <input
+            [(ngModel)]="username"
+            type="text"
+            id="username"
+            name="username"
+            class="form-control"
+          >
+        </column>
+      </row>
+
+      <row class="my-1">
+        <column>
+          <label for="password" class="fw-bold">Password</label>
+          <input
+            [(ngModel)]="password"
+            type="password"
+            name="password"
+            id="password"
+            class="form-control"
+          >
+        </column>
+      </row>
+
+      <row *ngIf="accessDenied">
+        <column class="text-center">
           Invalid username / password
-        </div>
-      </div>
+        </column>
+      </row>
 
-      <div class="row">
-        <div class="col d-flex justify-content-around">
+      <row><column>
+        <hr class="my-2">
+      </column></row>
+
+      <row>
+        <column class="d-flex justify-content-around">
           <input type="submit" value="Login" class="btn btn-outline-light px-3">
-        </div>
-      </div>
+        </column>
+      </row>
 
-      <div class="row">
-        <div class="col text-center p-2">
+      <row>
+        <column class="text-center p-2">
           Don't have an account yet?
           <a routerLink="/register" class="text-light fw-bold text-decoration-none">Register here</a>
-        </div>
-      </div>
-    </div>
+        </column>
+      </row>
+
+    </container>
   </form>
+
 </div>

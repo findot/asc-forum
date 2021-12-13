@@ -2,127 +2,150 @@
 
   <form
     [formGroup]="form"
-    class="app-register"
-    style="width: 800px"
+    class="app-register light px-3"
+    style="max-width: 800px"
     (ngSubmit)="onSubmit()"
   >
-    <div class="container">
+    <container>
 
-      <div class="row">
-        <div class="col text-center p-2">
-          <h3 class="fw-bold fs-1 m-0">Registration</h3>
-          <a
-            routerLink="/login"
-            class="text-light fw-light text-decoration-none"
-          >
-            Already have an account ?
-          </a>
-          <hr class="mb-4 mt-2">
-        </div>
-      </div>
+      <row>
+        <column
+          class="mb-3"
+          [size]="{ base: 12, xs: 8, sm: 6, md: 4 }"
+          [offset]="{ base: 0, xs: 2, sm: 3, md: 4 }"
+        >
+          <app-auth-logo [size]="4"></app-auth-logo>
+        </column>
+      </row>
 
-      <div class="row">
+      <row><column>
+        <hr class="mb-4 mt-2">
+      </column></row>
 
-        <div class="col-8 mb-0 pb-0">
+      <row>
+        
+        <column
+          [size]="{ base: 12, sm: 10, md: 8 }"
+          [offset]="{ base: 0, sm: 1, md: 0 }"
+          [order]="{ base: 2, md: 1 }"
+        >
 
-          <div class="container">
+          <input-row
+            [formControl]="username"
+            label="Username"
+            name="username"
+            class="my-3"
+            [label-size]="{ base: 4, sm: 3 }"
+            [input-size]="{ base: 8, sm: 9 }"
+            [x-gutter]="0"
+          ></input-row>
 
-            <app-input-row
-              type="text"
-              label="Username"
-              name="username"
-              id="username"
-              [formControl]="username"
-            ></app-input-row>
+          <input-row
+            [formControl]="email"
+            type="email"
+            label="Email"
+            name="email"
+            class="my-3"
+            [label-size]="{ base: 4, sm: 3 }"
+            [input-size]="{ base: 8, sm: 9 }"
+            [x-gutter]="0"
+          ></input-row>
 
-            <app-input-row
-              type="email"
-              label="Email"
-              name="email"
-              id="email"
-              [formControl]="email"
-            ></app-input-row>
+          <input-row
+            [formControl]="password"
+            type="password"
+            label="Password"
+            name="password"
+            class="my-1"
+            [label-size]="{ base: 4, sm: 3 }"
+            [input-size]="{ base: 8, sm: 9 }"
+            [x-gutter]="0"
+          ></input-row>
+    
+          <input-row
+            [formControl]="passwordConfirmation"
+            type="password"
+            label="Confirmation"
+            name="password-confirmation"
+            class="my-3"
+            [label-size]="{ base: 4, sm: 3 }"
+            [input-size]="{ base: 8, sm: 9 }"
+            [x-gutter]="0"
+          ></input-row>
 
-            <app-input-row
-              type="password"
-              label="Password"
-              name="password"
-              id="password"
-              [formControl]="password"
-            ></app-input-row>
-      
-            <app-input-row
-              type="password"
-              label="Confirmation"
-              name="password-confirmation"
-              id="password-confirmation"
-              [formControl]="passwordConfirmation"
-            ></app-input-row>
-
-            <div class="row">
-              <div class="col-3"></div>
-              <div class="col">
-                <div
-                  *ngIf="!form.pristine && form.errors"
-                  class="bg-warning text-dark text-center fw-bold p-2"
-                >
-                  <fa-icon [icon]="faExclamationTriangle"></fa-icon>
-                  <span class="mx-2">{{error}}</span>
-                  <fa-icon [icon]="faExclamationTriangle"></fa-icon>
-                </div>
+          <row *ngIf="!form.pristine && form.errors">
+            <column [offset]="3">
+              <div class="bg-warning text-dark text-center fw-bold p-2">
+                <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+                <span class="mx-2">{{error}}</span>
+                <fa-icon [icon]="faExclamationTriangle"></fa-icon>
               </div>
-            </div>
+            </column>
+          </row>
+        </column>
 
-          </div>
-        </div>
-
-        <div class="col-4 d-flex flex-column justify-content-center">
-          <app-logo [size]="6"></app-logo>
-        </div>
-
-      </div>
-
-      <div class="row">
-        <hr class="mt-4">
-        <div class="col d-flex justify-content-around">
-          <div
-            ngbTooltip="Please fill out the form before to proceed"
-            placement="bottom"
-            triggers="manual"
-            #submitTooltip="ngbTooltip"
-            (mouseenter)="handleSubmitHover(true, submitTooltip)"
-            (mouseleave)="handleSubmitHover(false, submitTooltip)"
-          >
-            <button
-              type="submit"
-              [disabled]="!processing && !form.valid"
+        <column
+          [size]="{ base: 12, xs: 8, sm: 6, md: 4 }"
+          [offset]="{ base: 0, xs: 2, sm: 3, md: 0 }"
+          [order]="{ base: 1, md: 2 }"
+        >
+          <div class="h-100 d-flex flex-column justify-content-center text-center p-2">
               
-              class="btn btn-submit px-5 fw-bold"
-              
-              [class.btn-outline-light]="!form.valid"
-              
-              [class.btn-light]="!processing && form.valid"
-              [class.text-primary]="!processing && form.valid"
-              [class.submission-loading]="submissionLoading"
-              [class.submission-success]="submissionSuccess"
-              [class.submission-error]="submissionError"
+            <h3 class="fs-1 fw-bold m-0">Registration</h3>
+            <a
+              routerLink="/login"
+              class="text-light fw-light text-decoration-none"
             >
-              <span *ngIf="submissionLoading">Loading...</span>
-              <span *ngIf="submissionSuccess">
-                <fa-icon [icon]="faCheck"></fa-icon>
-              </span>
-              <span *ngIf="submissionError">
-                <fa-icon [icon]="faTimes"></fa-icon>
-              </span>
-              <span *ngIf="!processing">
-                Register
-              </span>
-            </button>
+              Already have an account ?
+            </a>
           </div>
-        </div>
-      </div>
+        </column>
 
-    </div>
+      </row>
+
+      <row>
+        <column>
+          <hr class="mt-4">
+          <div class="d-flex justify-content-around">
+            <div
+              ngbTooltip="Please fill out the form before to proceed"
+              placement="bottom"
+              triggers="manual"
+              #submitTooltip="ngbTooltip"
+              (mouseenter)="handleSubmitHover(true, submitTooltip)"
+              (mouseleave)="handleSubmitHover(false, submitTooltip)"
+            >
+              <button
+                type="submit"
+                [disabled]="!processing && !form.valid"
+                
+                class="btn btn-submit px-5 fw-bold"
+                
+                [class.btn-outline-light]="!form.valid"
+                
+                [class.btn-light]="!processing && form.valid"
+                [class.text-primary]="!processing && form.valid"
+                [class.submission-loading]="submission?.kind === 'loading'"
+                [class.submission-success]="submission?.kind === 'succeeded'"
+                [class.submission-error]="submission?.kind === 'failed'"
+              >
+                <span *ngIf="submission?.kind === 'loading'">Loading...</span>
+                <span *ngIf="submission?.kind === 'succeeded'">
+                  <fa-icon [icon]="faCheck"></fa-icon>
+                </span>
+                <span *ngIf="submission?.kind === 'failed'">
+                  <fa-icon [icon]="faTimes"></fa-icon>
+                </span>
+                <span *ngIf="!processing">
+                  Register
+                </span>
+              </button>
+            </div>
+          </div>
+        </column>
+      </row>
+
+    </container>
   </form>
 
 </div>

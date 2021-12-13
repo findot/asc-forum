@@ -1,0 +1,67 @@
+@use "sass:color";
+
+@use "theme";
+@use "fonts";
+@use "animations";
+
+
+form.light {
+  
+  $untouched: color.scale(theme.$light, $alpha: -30%);
+  $valid: theme.$light;
+  $invalid: theme.$warning;
+
+  label {
+
+    background: $untouched;
+    color: theme.$primary;
+    padding-right: .5rem;
+
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+
+    transition: .2s ease;
+
+  }
+
+  input.form-control {
+
+    background: lighten(theme.$primary, 20%);
+    color: theme.$light;
+    transition: .1s ease-in;
+
+    &, &:focus, &:hover, &:active {
+      border: 0;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-bottom: 2px solid $untouched;
+      box-shadow: none;
+    }
+
+  }
+
+  .ng-invalid:not(.ng-pristine) {
+    label {
+      background: $invalid;
+      transition: .2s ease;
+    }
+
+    input {
+      border-bottom-color: $invalid;
+      transition: .2s ease;
+    }
+  }
+
+  .ng-valid {
+    label {
+      background: $valid;
+      transition: .2s ease;
+    }
+
+    input {
+      border-bottom-color: $valid;
+      transition: .2s ease;
+    }
+  }
+
+}

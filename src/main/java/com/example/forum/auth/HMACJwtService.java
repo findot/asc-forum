@@ -1,6 +1,6 @@
 package com.example.forum.auth;
 
-import java.util.Calendar;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import com.auth0.jwt.JWT;
@@ -40,18 +40,15 @@ public class HMACJwtService implements JwtService {
 
   @Override
   public String create(String subject, boolean isAdmin) {
-    Calendar calendar = Calendar.getInstance();
-    Date now = calendar.getTime();
-    
-    calendar.add(Calendar.MINUTE, lifespan);
-    Date then = calendar.getTime();
-    
+    ZonedDateTime now = ZonedDateTime.now();
+    ZonedDateTime then = now.plusMinutes(lifespan);    
+
     return JWT.create()
       .withIssuer(issuer)
       .withSubject(subject)
-      .withIssuedAt(now)
-      .withNotBefore(now)
-      .withExpiresAt(then)
+      .withIssuedAt(Date.from(now.toInstant()))
+      .withNotBefore(Date.from(now.toInstant()))
+      .withExpiresAt(Date.from(then.toInstant()))
       .withClaim("isAdmin", isAdmin)
       .sign(algorithm);
   }

@@ -1,37 +1,30 @@
-<div class="row g-1 mb-2">
+<column [size]="labelSize" [offset]="labelOffset" [order]="labelOrder">
+  <label [for]="id" class="col-form-label fw-bold w-100 text-end">
+    {{label}}
+  </label>
+</column>
+
+<column [size]="inputSize" [offset]="inputOffset" [order]="inputOrder">
+  <input
+    #tooltip="ngbTooltip"
+    [formControl]="formControl"
   
-  <div class="col-3">
-    <label
-      [for]="id"
-      class="col-form-label fw-bold"
-    >
-      {{label}}
-    </label>
-  </div>
+    [type]="type"
+    [value]="value"
+    [name]="name"
+    [id]="id"
+    [required]="required"
 
-  <div class="col-9">
-    <input
-      [formControl]="formControl"
-    
-      [type]="type"
-      [value]="value"
-      [name]="name"
-      [id]="id"
-      [required]="required"
+    class="form-control"
+    [class.is-invalid] = "!formControl.pristine && !formControl.valid"
+    [class.is-valid] = "!formControl.pristine && formControl.valid"
 
-      class="form-control"
-      [class.is-invalid] = "!formControl.pristine && !formControl.valid"
-      [class.is-valid] = "!formControl.pristine && formControl.valid"
-
-      [ngbTooltip]="error"
-      #tooltip="ngbTooltip"
-      triggers="manual"
-      [placement]="tooltipPlacement"
-      (mouseenter)="onHover(true, tooltip)"
-      (mouseleave)="onHover(false, tooltip)"
-      (hover)="onHover(true, tooltip)"
-      (focus)="onHover(true, tooltip)"
-    >
-  </div>
-
-</div>
+    [ngbTooltip]="error"
+    triggers="manual"
+    [placement]="tooltipPlacement"
+    (mouseenter)="onHover(true, tooltip)"
+    (mouseleave)="onHover(false, tooltip)"
+    (hover)="onHover(true, tooltip)"
+    (focus)="onHover(true, tooltip)"
+  >
+</column>

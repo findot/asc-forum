@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-logo',
+  selector: 'app-auth-logo',
   templateUrl: './logo.component.html',
   styleUrls: ['./logo.component.scss']
 })
