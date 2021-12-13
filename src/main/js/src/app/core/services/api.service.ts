@@ -18,11 +18,21 @@ export class ApiService {
     private authService: AuthService
   ) {}
 
-  private get<T>(url: string) {
-    let headers: { Authentication?: string } = {};
+  private getHeaders(): { Authorization?: string } {
+    let headers: { Authorization?: string } = {};
     if (this.authService.connected())
-      headers.Authentication = `Bearer ${this.authService.accessToken}`;
-    return this.httpClient.get<T>(url, { headers });
+      headers.Authorization = `Bearer ${this.authService.accessToken}`;
+    return headers;
+  }
+
+  private get<T>(url: string) {
+    return this.httpClient.get<T>(url, { headers: this.getHeaders() });
+  }
+
+  private post<T, U>(url: string, payload: U) {
+    return this.httpClient.post<T>(url, payload, {
+      headers: this.getHeaders()
+    });
   }
 
   public createPost(post: Post) {}

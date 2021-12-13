@@ -38,7 +38,6 @@ export class AuthService extends StoredService {
     );
     rq.subscribe(response => {
       this.token = response.token;
-      console.warn(this.token);
       this.setupRefreshLoop();
     });
     
@@ -91,12 +90,12 @@ export class AuthService extends StoredService {
       clearTimeout(this.refreshTimeout as unknown as number);
       this.httpClient.get<{ token: string }>(
         `${this.endpoint}/refresh`,
-        { headers: { Authentication: `Bearer ${this.token}` }}
+        { headers: { Authorization: `Bearer ${this.token}` }}
       ).subscribe(response => {
         this.token = response.token;
         this.setupRefreshLoop();
       }, _ => { this.token = undefined; });
-    }, Math.max(remaining * 60 * 1000 - 5000, 1000));
+    }, Math.max((remaining - 5) * 60 * 1000, 0));
   }
 
 }

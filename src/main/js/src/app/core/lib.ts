@@ -83,6 +83,8 @@ export function Stored(awakeningFunctionName?: string): PropertyDecorator {
       },
       set: function(value: unknown): void {
         this[`_${String(propertyKey)}`] = value;
+        if (value === undefined || value === null)
+          window.localStorage.removeItem(String(propertyKey));
         const storedValue = JSON.stringify(value);
         window.localStorage.setItem(String(propertyKey), storedValue);
       }
