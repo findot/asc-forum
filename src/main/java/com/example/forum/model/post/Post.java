@@ -46,7 +46,7 @@ public class Post {
   @Column(length = 64, nullable = false)
   private String title;
 
-  @Column(length = 512, nullable = false)
+  @Column(length = 4096, nullable = false)
   private String content;
 
 

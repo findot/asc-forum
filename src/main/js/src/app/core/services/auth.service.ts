@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { User } from '../models/User';
 import { RequestFailure } from '../models/Async';
 import { Stored, StoredService } from '../lib';
@@ -35,16 +36,17 @@ export class AuthService extends StoredService {
   { return this.token !== null && this.token !== undefined; }
 
   public login(username: string, password: string) {
-    const rq = this.httpClient.post<{ token: string }>(
+    return this.httpClient.post<{ token: string }>(
       `${this.endpoint}/login`,
       { username, password }
+    ).pipe(
+      tap(response => {
+        this.token = response.token;
+        this.setupRefreshLoop();
+      }),
+      map(_ => true),
+      catchError(_ => of(false))
     );
-    rq.subscribe(response => {
-      this.token = response.token;
-      this.setupRefreshLoop();
-    });
-    
-    return rq.pipe(map(_ => true), catchError(_ => of(false)));
   }
 
   public logout() {
