@@ -5,5 +5,7 @@ export interface JWTToken {
   iat: number,
   nbf: number,
   exp: number,
+  
+  // Custom fields
   isAdmin: boolean
 }

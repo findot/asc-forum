@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, share } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from '../models/User';
@@ -10,31 +10,104 @@ import jwtDecode from 'jwt-decode';
 import { JWTToken } from '../models/JWTToken';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService extends StoredService {
 
-  endpoint: string = '/api/auth'
+  // API Endpoint
+  private endpoint: string = '/api/auth';
+  private userEndpoint: string = '/api/accounts/self';
+
+  // Account
+  private account?: User;
 
   @Stored() private token?: string;
-  refreshTimeout?: ReturnType<typeof setTimeout>;
+  private refreshTimeout?: ReturnType<typeof setTimeout>;
+
+  /* --------------------------------- CTOR -------------------------------- */
 
   constructor(private httpClient: HttpClient) {
     super();
-    if (this.token)
-      this.setupRefreshLoop();
+    if (this.token) this.setupRefreshLoop();
   }
 
-  public get accessToken(): string {
-    if (!this.connected())
-      throw new Error('Not connected');
-    return this.token!;
+  /* -------------------------------- UTILS -------------------------------- */
+
+  private setupRefreshLoop(): void {
+    if (!this.connected) throw new Error('Not connected');
+    
+    const decodedToken: JWTToken = jwtDecode(this.token as string);
+    
+    // Expiration time, in seconds
+    const expiration      = decodedToken.exp;
+    // Now, in seconds
+    const now             = Math.floor(new Date().getTime() / 1000);
+    // Remaining time, in minutes
+    const remaining       = (expiration - now) / 60;
+    // The amount of minutes before the token expires at which we want to
+    // refresh the token
+    const preventionTime  = Math.max(Math.floor(remaining / 5), 5);
+
+    if (remaining < 0) return console.warn('Token expired');
+    
+    console.warn(`Token will refresh in ${Math.max(remaining - preventionTime, 0)} minute(s)`);
+    this.refreshTimeout = setTimeout(() => {
+      clearTimeout(this.refreshTimeout as unknown as number);
+      
+      this.httpClient.get<{ token: string }>(
+        `${this.endpoint}/refresh`,
+        { headers: { Authorization: `Bearer ${this.token}` }}
+      ).pipe(catchError(() => this.logout())).subscribe(response => {
+        // TODO - Investigate catchError boolean
+        if (typeof response === 'boolean') return;
+        this.token = response.token;
+        this.setupRefreshLoop();
+      }, _ => { this.token = undefined; });
+    
+    }, Math.max((remaining - preventionTime) * 60 * 1000, 0));
   }
 
-  public connected(): boolean
-  { return this.token !== null && this.token !== undefined; }
+  private onRegisterError(errorResponse: HttpErrorResponse) {
+    const error: RequestFailure = errorResponse.error as RequestFailure;
+    return of(error);
+  }
 
+  private fetchConnectedUser() {
+    this.httpClient.get<User>(
+      this.userEndpoint,
+      { headers: { Authorization: `Bearer ${this.token}` } }
+    ).subscribe(account => { this.account = account; });
+  }
+
+  /* -------------------------------- PROPS -------------------------------- */
+
+  /**
+   * The current access token.
+   */
+  public get accessToken(): string | null {
+    return this.token ? this.token : null;
+  }
+
+  /**
+   * Whether the user is connected or not.
+   */
+  public get connected(): boolean {
+    return this.token !== null && this.token !== undefined;
+  }
+
+  public get connectedUser(): User | null {
+    return this.account ? { ...this.account } : null;
+  }
+
+  /* ---------------------- LOGIN / LOGOUT / REGISTER ---------------------- */
+
+  /**
+   * Login to the server as *username* with password *password*.
+   * 
+   * @param username The account username to identify as
+   * @param password The account password
+   * @returns A boolean observable that resolves to *true* if the
+   *          identification process succeeded, *false* otherwise
+   */
   public login(username: string, password: string) {
     return this.httpClient.post<{ token: string }>(
       `${this.endpoint}/login`,
@@ -42,62 +115,45 @@ export class AuthService extends StoredService {
     ).pipe(
       tap(response => {
         this.token = response.token;
+        this.fetchConnectedUser();
         this.setupRefreshLoop();
       }),
+      share(),
       map(_ => true),
       catchError(_ => of(false))
     );
   }
 
+  /**
+   * Ends the user current connection, throws an error if there is no active 
+   * connection.
+   * 
+   * @returns An observable that resolves once disconnected.
+   */
   public logout() {
-    if (!this.connected())
-      throw new Error("Not connected");
+    if (!this.connected) throw new Error('Not connected');
   
-    if (this.refreshTimeout)
+    if (this.refreshTimeout) 
       clearTimeout(this.refreshTimeout as unknown as number);
     this.token = undefined;
 
     return of(true);
   }
 
+  /**
+   * Registers a user on the platform with the given information, solely the
+   * username, email and password fields must be given. Other fields will be
+   * discarded.
+   * 
+   * @param user The user to subscribe
+   * @returns The observable of the request
+   */
   public register(user: User) {
-    if (this.connected())
-      throw new Error("Already connected");
+    if (this.connected) throw new Error('Already connected');
     
     return this.httpClient
       .post(`${this.endpoint}/register`, user)
       .pipe(map(_ => ({ success: true })), catchError(this.onRegisterError));
-  }
-
-  public onRegisterError(errorResponse: HttpErrorResponse) {
-    const error: RequestFailure = errorResponse.error as RequestFailure;
-    return of(error);
-  }
-
-  private setupRefreshLoop(): void {
-    if (!this.connected())
-      throw new Error('Not connected');
-    
-    const decodedToken: JWTToken = jwtDecode(this.token as string);
-    
-    const expiration = decodedToken.exp; // Expiration time, in seconds
-    const now = Math.floor(new Date().getTime() / 1000); // Now, in seconds
-    const remaining = (expiration - now) / 60; // Remaining time, in minutes
-
-    if (remaining < 0)
-      return console.warn('Token expired');
-    
-    console.warn(`Token will refresh in ${Math.max(remaining - 5, 1)} minute(s)`);
-    this.refreshTimeout = setTimeout(() => {
-      clearTimeout(this.refreshTimeout as unknown as number);
-      this.httpClient.get<{ token: string }>(
-        `${this.endpoint}/refresh`,
-        { headers: { Authorization: `Bearer ${this.token}` }}
-      ).subscribe(response => {
-        this.token = response.token;
-        this.setupRefreshLoop();
-      }, _ => { this.token = undefined; });
-    }, Math.max((remaining - 5) * 60 * 1000, 0));
   }
 
 }
