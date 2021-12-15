@@ -58,8 +58,8 @@ export class ApiService {
    * Execute a GET request on the given endpoint with the appropriate headers
    * (e.g auth headers).
    * 
-   * @param endpoint The API endpoint, do NOT include the api path as it is
-   *                 already handled
+   * @param endpoint The API endpoint, do NOT include the base api path as it
+   *                 is already handled
    * @returns The observable of the request
    */
   private get<T>(endpoint: string): Observable<T> {
@@ -78,11 +78,11 @@ export class ApiService {
   }
 
   /**
-   * Execute a POST request on the given endpoint zith the appropriate headers
+   * Execute a POST request on the given endpoint with the appropriate headers
    * (e.g auth headers).
    * 
-   * @param endpoint The API endpoint, do NOT include the api path as it is
-   *                 already handled
+   * @param endpoint The API endpoint, do NOT include the base api path as it
+   *                 is already handled
    * @param payload The payload to send to the server
    * @returns The observable of the request
    */
@@ -93,8 +93,21 @@ export class ApiService {
     });
   }
 
-  /* ------------------------------- ACCOUNTS ------------------------------ */
+  /**
+   * Execute a DELETE request on the given endpoint with the appropriate
+   * headers (e.g auth headers).
+   * 
+   * @param endpoint The API endpoint, do NOT include the base api path as it
+   *                 is already handled
+   * @returns The observable of the request
+   */
+  private delete<T>(endpoint: string) {
+    return this.httpClient.delete<T>(`${this.url}/${endpoint}`, {
+      headers: this.headers
+    });
+  }
 
+  /* ------------------------------- ACCOUNTS ------------------------------ */
 
   /**
    * Fetch the account whose id is *id*.
@@ -129,7 +142,12 @@ export class ApiService {
    * 
    * @param id 
    */
-  public deletePost(id: number) {}
+  public deletePost(id: number) {
+    // TODO - Check cached requests
+    return this.delete(`/posts/${id}`).pipe(
+      tap(() => this.posts.delete(id))
+    );
+  }
 
   /**
    * Fetch all the posts.

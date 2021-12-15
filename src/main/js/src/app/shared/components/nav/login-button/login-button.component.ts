@@ -16,6 +16,6 @@ export class LoginButtonComponent implements OnInit {
   }
 
   get connected(): boolean
-  { return this.authService.connected(); }
+  { return this.authService.connected; }
 
 }

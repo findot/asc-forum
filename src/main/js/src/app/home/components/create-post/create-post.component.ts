@@ -11,29 +11,27 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class CreatePostComponent implements OnInit {
 
-  faInfoCircle = faInfoCircle;
-  faICursor = faICursor;
+  faInfoCircle    = faInfoCircle;
+  faICursor       = faICursor;
 
-  title: string = '';
+  title: string   = '';
   content: string = '';
 
   constructor(
     private apiService: ApiService,
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit() {
-    this.apiService.createPost({ title: this.title, content: this.content }).subscribe(
-      post => this.router.navigate(["post", post.id])
-    )
+    this.apiService
+      .createPost({ title: this.title, content: this.content })
+      .subscribe(post => this.router.navigate(["post", post.id]));
   }
 
-  get connected(): boolean {
-    return this.authService.connected();
-  }
+  get connected(): boolean
+  { return this.authService.connected; }
 
 }
