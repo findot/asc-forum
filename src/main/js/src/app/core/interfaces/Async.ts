@@ -1,7 +1,9 @@
 
 export interface RequestFailure {
-  code: number,
-  reason: { [key:string]: string }
+  code  : number,
+  reason: {
+    [key:string]: string
+  }
 }
 
 

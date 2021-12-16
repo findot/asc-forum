@@ -6,7 +6,7 @@
     <row><column><container sm>
       <row [y-gutter]="1" class="align-items-end">
         <column [size]="12" class="pt-3">
-          <div class="text-secondary">Posted by {{authorName}} {{dateString}}</div>
+          <div class="text-secondary">By {{ post | author | async }} - {{ post | datestring }}</div>
         </column>
         <column [size]="10">
           <h1 class="m-0">{{post?.title}}</h1>
@@ -58,7 +58,7 @@
         </form>
       </column>
       <column [size]="12" *ngFor="let comment of comments" class="px-4">
-        <app-comment [comment]="comment"></app-comment>
+        <comment [comment]="comment"></comment>
       </column>
     </row>
   </container>

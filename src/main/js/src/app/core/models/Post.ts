@@ -1,12 +1,11 @@
-import { User } from './User';
-import { Comment } from './Comment';
+import { Publication } from '../interfaces/Publication';
 
-export interface Post {
-  id?: number,
-  title: String,
-  content: String,
-  author?: User | number,
-  comments?: Comment[] | number[],
-  published?: string,
-  highlight?: boolean
+export interface Post extends Publication {
+  id        : number,
+  author    : number,
+  title     : String,
+  content   : String,
+  comments  : number[],
+  published : string,
+  highlight : boolean
 }

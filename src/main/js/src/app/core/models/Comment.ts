@@ -1,9 +1,9 @@
-import { User } from "./User";
+import { Publication } from '../interfaces/Publication';
 
-export interface Comment {
-  id?: number,
-  content: string,
-  post?: number,
-  author?: User | number,
-  published?: string
+export interface Comment extends Publication {
+  id        : number,
+  author    : number,
+  content   : string,
+  post      : number,
+  published : string
 }

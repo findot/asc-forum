@@ -5,11 +5,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { FluxComponent } from './components/flux/flux.component';
 import { HighlightComponent } from './components/highlight/highlight.component';
-import { PostsComponent } from './components/posts/posts.component';
 import { PostComponent } from './components/post/post.component';
 
 import { HomeComponent } from './pages/home/home.component';
-import { SharedModule } from '../shared/components/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { PostPageComponent } from './pages/post/post-page.component';
 import { AppRoutingModule } from '../app-routing.module';
@@ -20,7 +19,6 @@ import { CommentComponent } from './components/comment/comment.component';
     HomeComponent,
     FluxComponent,
     HighlightComponent,
-    PostsComponent,
     PostComponent,
     CreatePostComponent,
     PostPageComponent,

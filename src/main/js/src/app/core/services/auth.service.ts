@@ -1,13 +1,14 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, map, share } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError, flatMap, map, mergeMap, share } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { User } from '../models/User';
-import { RequestFailure } from '../models/Async';
+import { RequestFailure } from '../interfaces/Async';
 import { Stored, StoredService } from '../lib';
 import jwtDecode from 'jwt-decode';
-import { JWTToken } from '../models/JWTToken';
+import { JWTToken } from '../interfaces/JWTToken';
+import { RegisterRequest } from '../interfaces/Messages';
 
 
 @Injectable({ providedIn: 'root' })
@@ -27,7 +28,12 @@ export class AuthService extends StoredService {
 
   constructor(private httpClient: HttpClient) {
     super();
-    if (this.token) this.setupRefreshLoop();
+    if (this.token) {
+      this.setupRefreshLoop();
+      this.fetchTokenAccount(this.token).subscribe(
+        account => { this.account = account; }
+      );
+    }
   }
 
   /* -------------------------------- UTILS -------------------------------- */
@@ -71,11 +77,11 @@ export class AuthService extends StoredService {
     return of(error);
   }
 
-  private fetchConnectedUser() {
-    this.httpClient.get<User>(
+  private fetchTokenAccount(token: string): Observable<User> {
+    return this.httpClient.get<User>(
       this.userEndpoint,
-      { headers: { Authorization: `Bearer ${this.token}` } }
-    ).subscribe(account => { this.account = account; });
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
   }
 
   /* -------------------------------- PROPS -------------------------------- */
@@ -95,7 +101,9 @@ export class AuthService extends StoredService {
   }
 
   public get connectedUser(): User | null {
-    return this.account ? { ...this.account } : null;
+    if (!this.connected)
+      return null;
+    return this.account!;
   }
 
   /* ---------------------- LOGIN / LOGOUT / REGISTER ---------------------- */
@@ -113,10 +121,14 @@ export class AuthService extends StoredService {
       `${this.endpoint}/login`,
       { username, password }
     ).pipe(
-      tap(response => {
-        this.token = response.token;
-        this.fetchConnectedUser();
-        this.setupRefreshLoop();
+      mergeMap(response => forkJoin([
+        of(response.token),
+        this.fetchTokenAccount(response.token)
+      ]))
+    ).pipe(
+      tap(([token, account]) => {
+        this.token = token;
+        this.account = account;
       }),
       share(),
       map(_ => true),
@@ -148,7 +160,7 @@ export class AuthService extends StoredService {
    * @param user The user to subscribe
    * @returns The observable of the request
    */
-  public register(user: User) {
+  public register(user: RegisterRequest) {
     if (this.connected) throw new Error('Already connected');
     
     return this.httpClient

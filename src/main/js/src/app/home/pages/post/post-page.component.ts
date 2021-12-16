@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+
 import { mergeMap } from 'rxjs/operators';
+import { formatDistance } from 'date-fns';
+import { faComment, faICursor, faTimes } from '@fortawesome/free-solid-svg-icons';
+
 import { Post } from 'src/app/core/models/Post';
 import { Comment } from 'src/app/core/models/Comment';
 import { ApiService } from 'src/app/core/services/api.service';
 import { User } from 'src/app/core/models/User';
-import { formatDistance } from 'date-fns';
-import { faComment, faICursor, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/core/services/auth.service';
+
 
 @Component({
   selector: 'app-post-page',
@@ -49,21 +52,6 @@ export class PostPageComponent implements OnInit {
     })).subscribe(comments => {
       this.comments = Array.from(comments.entries()).map(kv => kv[1]);
     });
-  }
-
-  public get dateString(): string {
-    if (!this.post) return '';
-    const now = new Date();
-    const postDate = Date.parse(this.post.published!);
-    return formatDistance(postDate, now, { addSuffix: true });
-  }
-
-  public get authorName() {
-    const connectedUser = this.authService.connectedUser;
-    if (!this.authService.connected || connectedUser?.id !== this.author?.id)
-      return this.author?.username;
-    console.log('ici');
-    return 'you';
   }
 
   onSubmit() {

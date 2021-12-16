@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { faExclamationTriangle, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';          
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 
-import { RequestFailure, Submission } from 'src/app/core/models/Async';
+import { RequestFailure, Submission } from 'src/app/core/interfaces/Async';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 

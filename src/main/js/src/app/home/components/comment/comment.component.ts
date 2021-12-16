@@ -6,7 +6,7 @@ import { formatDistance } from 'date-fns';
 
 
 @Component({
-  selector: 'app-comment',
+  selector: 'comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']
 })
@@ -23,7 +23,7 @@ export class CommentComponent implements OnInit {
   ngOnInit(): void {
     const author = this.comment?.author as number;
     this.apiService.getAccount(author)
-      .subscribe(author => { this.author = author; })
+      .subscribe(author => { this.author = author; });
   }
 
   public get dateString(): string {

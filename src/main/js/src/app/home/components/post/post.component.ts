@@ -6,7 +6,7 @@ import { formatDistance } from 'date-fns';
 import { faComment } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
-  selector: 'app-post',
+  selector: 'post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss']
 })
@@ -15,21 +15,7 @@ export class PostComponent implements OnInit {
   faComment = faComment;
 
   @Input() post!: Post;
-  author?: User;
 
-  constructor(
-    private apiService: ApiService
-  ) { }
-
-  public get dateString(): string {
-    const now = new Date();
-    const postDate = Date.parse(this.post.published!);
-    return formatDistance(postDate, now, { addSuffix: true });
-  }
-
-  ngOnInit(): void {
-    this.apiService.getAccount(this.post.author! as number)
-      .subscribe(user => { this.author = user; });
-  }
+  ngOnInit(): void {}
 
 }

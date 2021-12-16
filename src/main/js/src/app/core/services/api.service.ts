@@ -6,6 +6,7 @@ import { AuthService } from './auth.service';
 import { map, share, tap } from 'rxjs/operators';
 import { User } from '../models/User';
 import { Comment } from '../models/Comment';
+import { CommentRequest, PostRequest } from '../interfaces/Messages';
 
 
 @Injectable({ providedIn: 'root' })
@@ -131,8 +132,8 @@ export class ApiService {
    * @returns An observable of the request which will result in a post if the
    *          post was created, an error otherwise.
    */
-  public createPost(post: Post) {
-    return this.post<Post, Post>('/posts', post).pipe(
+  public createPost(post: PostRequest) {
+    return this.post<Post, PostRequest>('/posts', post).pipe(
       tap(post => this.posts.set(post.id!, post))
     );
   }
@@ -214,14 +215,10 @@ export class ApiService {
   public createComment(postId: number, content: string) {
     if (!this.authService.connected)
       throw new Error('Not connected');
-    return this.post<Comment, Comment>(
+    return this.post<Comment, CommentRequest>(
       `/posts/${postId}/comments`,
       { content }
-    ).pipe(
-      tap(comment => {
-        this.comments.get(postId)?.set(comment.id!, comment);
-      })
-    );
+    ).pipe(tap(comment => this.comments.get(postId)?.set(comment.id, comment)));
   }
 
 }
