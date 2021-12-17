@@ -85,7 +85,7 @@ public class PostController {
     if (!post.isPresent())
       throw new PostNotFoundException(id);
 
-    if (post.get().getAuthor() != account)
+    if (post.get().getAuthor().getId() != account.getId())
       throw new UnauthorizedActionException();
     
     posts.delete(post.get());

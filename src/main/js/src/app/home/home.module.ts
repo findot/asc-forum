@@ -6,6 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FluxComponent } from './components/flux/flux.component';
 import { HighlightComponent } from './components/highlight/highlight.component';
 import { PostComponent } from './components/post/post.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HomeComponent } from './pages/home/home.component';
 import { SharedModule } from '../shared/shared.module';
@@ -13,6 +14,8 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
 import { PostPageComponent } from './pages/post/post-page.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { CommentComponent } from './components/comment/comment.component';
+import { ActionButtonComponent } from './components/action-button/action-button.component';
+import { DeletePostModalComponent } from './components/delete-post-modal/delete-post-modal.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import { CommentComponent } from './components/comment/comment.component';
     PostComponent,
     CreatePostComponent,
     PostPageComponent,
-    CommentComponent
+    CommentComponent,
+    ActionButtonComponent,
+    DeletePostModalComponent
   ],
   exports: [
     HomeComponent
@@ -32,6 +37,7 @@ import { CommentComponent } from './components/comment/comment.component';
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    NgbModule,
     SharedModule,
     AppRoutingModule
   ]

@@ -70,7 +70,7 @@ export class ApiService {
     if (cached !== null)
       return cached;
     
-    const rq = this.httpClient.get<T>(`${this.url}/${endpoint}`, {
+    const rq = this.httpClient.get<T>(`${this.url}${endpoint}`, {
       headers: this.headers
     });
     this.setCachedRequest<T>(cacheKey, rq);
@@ -89,7 +89,7 @@ export class ApiService {
    */
   private post<T, U>(endpoint: string, payload: U) {
     // POST shouldn't be cached
-    return this.httpClient.post<T>(`${this.url}/${endpoint}`, payload, {
+    return this.httpClient.post<T>(`${this.url}${endpoint}`, payload, {
       headers: this.headers
     });
   }
@@ -103,9 +103,18 @@ export class ApiService {
    * @returns The observable of the request
    */
   private delete<T>(endpoint: string) {
-    return this.httpClient.delete<T>(`${this.url}/${endpoint}`, {
+    const cachedKey = `DELETE:${endpoint}`;
+
+    const cached = this.getCachedRequest<T>(cachedKey);
+    if (cached !== null)
+      return cached;
+    
+    const rq = this.httpClient.delete<T>(`${this.url}${endpoint}`, {
       headers: this.headers
     });
+    this.setCachedRequest(cachedKey, rq);
+    
+    return rq;
   }
 
   /* ------------------------------- ACCOUNTS ------------------------------ */

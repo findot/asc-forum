@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { mergeMap } from 'rxjs/operators';
 import { formatDistance } from 'date-fns';
-import { faComment, faICursor, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faComment, faFlag, faICursor, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { Post } from 'src/app/core/models/Post';
 import { Comment } from 'src/app/core/models/Comment';
 import { ApiService } from 'src/app/core/services/api.service';
 import { User } from 'src/app/core/models/User';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { faFacebook, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DeletePostModalComponent } from '../../components/delete-post-modal/delete-post-modal.component';
 
 
 @Component({
@@ -20,9 +23,14 @@ import { AuthService } from 'src/app/core/services/auth.service';
 export class PostPageComponent implements OnInit {
 
   // Icons
-  faComment = faComment;
-  faICursor = faICursor;
-  faTimes   = faTimes;
+  faComment   = faComment;
+  faICursor   = faICursor;
+  faTimes     = faTimes;
+  faBell      = faBell;
+  faTwitter   = faTwitter;
+  faFacebook  = faFacebookF;
+  faFlag      = faFlag;
+  faTrash     = faTrash;
 
   // Props
   id      ?: number;
@@ -36,7 +44,9 @@ export class PostPageComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private authService: AuthService
+    private router: Router,
+    private modalService: NgbModal,
+    public authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -65,6 +75,11 @@ export class PostPageComponent implements OnInit {
 
   onClear() {
     this.userComment = '';
+  }
+
+  onDelete() {
+    const modalRef = this.modalService.open(DeletePostModalComponent);
+    modalRef.componentInstance.post = this.post;
   }
 
 }

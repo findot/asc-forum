@@ -61,6 +61,18 @@ public class Comment {
     );
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (o == this)
+      return true;
+
+    if (!(o instanceof Comment))
+      return false;
+    
+    Comment that = (Comment) o;
+    return that.getId() == this.id;
+  }
+
   public long getId()
   { return id; }
 

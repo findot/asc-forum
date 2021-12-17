@@ -68,6 +68,18 @@ public class Post {
       this.published
     );
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == this)
+      return true;
+
+    if (!(o instanceof Post))
+      return false;
+    
+    Post that = (Post) o;
+    return that.getId() == this.id;
+  }
   
   public long getId()
   { return id; }

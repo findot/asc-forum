@@ -19,6 +19,50 @@
           <p style="text-align: justify;">{{post?.content}}</p>
         </column>
       </row>
+
+      <row>
+        <column
+          [size]="{ base: 12, sm: 6, md: 4 }"
+          [offset]="{ base: 0, sm: 3, md: 4 }"
+        >
+          <hr class="m-0">
+        </column>
+        <column
+          [size]="{ base: 12, sm: 6, md: 4 }"
+          [offset]="{ base: 0, sm: 3, md: 4 }"
+          class="p-1 pb-0 d-flex justify-content-center"
+        >
+          <action-button
+            disabled
+            [icon]="faBell"
+            tooltip="Get notified"
+          ></action-button>
+          <action-button
+            disabled
+            [icon]="faTwitter"
+            tooltip="Share on twitter"
+          ></action-button>
+          <action-button
+            disabled
+            [icon]="faFacebook"
+            tooltip="Share on facebook"
+          ></action-button>
+          <action-button
+            disabled
+            [icon]="faFlag"
+            variant="warning"
+            tooltip="Report this post"
+          ></action-button>
+          <action-button
+            *ngIf="post?.author === authService.connectedUser?.id"
+            [icon]="faTrash"
+            tooltip="Delete this post"
+            variant="danger"
+            (click)="onDelete()"
+          ></action-button>
+        </column>
+      </row>
+
     </container></column></row>
   </container>
 

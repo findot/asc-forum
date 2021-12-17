@@ -1,4 +1,8 @@
-<div class="card post-card border-0 shadow-sm rounded">
+<div
+  class="card post-card border-0 shadow-sm rounded"
+  [class.bg-primary]="authService.connectedUser?.id === post.author"
+  [class.text-light]="authService.connectedUser?.id === post.author"
+>
   <div class="card-header">
     <container class="p-0">
       <row class="align-items-center">
@@ -12,7 +16,7 @@
       </row>
       <row>
         <column class="text-left" [size]="8">
-          <span class="text-muted">By {{ post | author | async }} - {{ post | datestring }}</span>
+          <span class="opacity-75">By {{ post | author | async }} - {{ post | datestring }}</span>
         </column>
         <column class="text-end" [size]="4">
           <a

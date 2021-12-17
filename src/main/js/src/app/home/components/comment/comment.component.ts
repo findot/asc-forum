@@ -14,23 +14,8 @@ export class CommentComponent implements OnInit {
 
   @Input() comment?: Comment;
   
-  author?: User;
+  constructor() {}
 
-  constructor(
-    private apiService: ApiService
-  ) { }
-
-  ngOnInit(): void {
-    const author = this.comment?.author as number;
-    this.apiService.getAccount(author)
-      .subscribe(author => { this.author = author; });
-  }
-
-  public get dateString(): string {
-    if (!this.comment) return '';
-    const now = new Date();
-    const postDate = Date.parse(this.comment?.published!);
-    return formatDistance(postDate, now, { addSuffix: true });
-  }
+  ngOnInit(): void {}
 
 }

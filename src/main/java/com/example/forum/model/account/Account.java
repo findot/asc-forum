@@ -83,6 +83,24 @@ public class Account {
     );
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (o == this)
+      return true;
+
+    if (!(o instanceof Account))
+      return false;
+    
+    Account that = (Account) o;
+    return that.getId() == this.id;
+  }
+
+  @Override
+  public int hashCode() {
+    // The username is marked as unique so its hashcode is sufficient for us
+    return username.hashCode();
+  }
+
   public long getId()
   { return id; }
 
