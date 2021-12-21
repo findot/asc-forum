@@ -16,6 +16,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { CommentComponent } from './components/comment/comment.component';
 import { ActionButtonComponent } from './components/action-button/action-button.component';
 import { DeletePostModalComponent } from './components/delete-post-modal/delete-post-modal.component';
+import { ReportPostModalComponent } from './components/report-post-modal/report-post-modal.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DeletePostModalComponent } from './components/delete-post-modal/delete-
     PostPageComponent,
     CommentComponent,
     ActionButtonComponent,
-    DeletePostModalComponent
+    DeletePostModalComponent,
+    ReportPostModalComponent
   ],
   exports: [
     HomeComponent

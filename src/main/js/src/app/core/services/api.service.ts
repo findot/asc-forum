@@ -189,6 +189,10 @@ export class ApiService {
     );
   }
 
+  public reportPost(id: number, reason: string) {
+    return this.post(`/posts/${id}/report`, { reason });
+  }
+
   /* ------------------------------- COMMENTS ------------------------------ */
 
   /**

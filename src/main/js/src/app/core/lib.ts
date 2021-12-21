@@ -1,5 +1,6 @@
-import { Component, Injectable, Input, OnDestroy, OnInit } from "@angular/core";
-import { TupleType } from "typescript";
+import { Injectable, Input } from "@angular/core";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 export function assert(condition: boolean, message?: string) {
   if (!condition) throw new Error(message);
@@ -90,4 +91,13 @@ export function Stored(awakeningFunctionName?: string): PropertyDecorator {
       }
     });
   }
+}
+
+
+export const delay = (ms: number) => <T, U>(obs: Observable<T>, f: (t: T) => U) => {
+  const now = (new Date()).getTime();
+  return new Observable<U>(subscriber => obs.subscribe((t: T) => setTimeout(
+    () => subscriber.next(f(t)),
+    Math.min((new Date()).getTime() - now, ms)
+  )));
 }

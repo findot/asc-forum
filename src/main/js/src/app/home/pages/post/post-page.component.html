@@ -48,10 +48,10 @@
             tooltip="Share on facebook"
           ></action-button>
           <action-button
-            disabled
             [icon]="faFlag"
             variant="warning"
             tooltip="Report this post"
+            (click)="onReport()"
           ></action-button>
           <action-button
             *ngIf="post?.author === authService.connectedUser?.id"

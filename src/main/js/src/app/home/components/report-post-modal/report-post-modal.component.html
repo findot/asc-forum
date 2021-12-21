@@ -1,0 +1,74 @@
+<div style="overflow: hidden;">
+  <div class="modal-header">
+    <h4 class="modal-title" id="delete-content-title">
+      <fa-icon [icon]="faFlag"></fa-icon>
+      <span class="mx-2">Report this Post</span>
+    </h4>
+    <button
+      type="button"
+      class="btn btn-light close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('exit')"
+    >
+      <span aria-hidden="true">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </span>
+    </button>
+  </div>
+
+  <div *ngIf="submission === null; then reportForm; else reportStatus"></div>
+
+  <ng-template #reportForm>
+    <div class="modal-body fade-in">
+      <p class="text-center mb-0"><strong>Help us understand what's happening</strong></p>
+      <p class="w-100 text-muted text-center fs-7">All information related to this report will be kept confidential.</p>
+      <textarea
+        [(ngModel)]="reason"
+        name="report-reason"
+        id="report-reason"
+        cols="30"
+        rows="10"
+        class="form-control"
+        placeholder="The reason(s) for the report, be as precise as possible"
+      ></textarea>
+    </div>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="activeModal.dismiss('cancel')"
+      >Cancel</button>
+      <button
+        type="button"
+        class="btn btn-warning"
+        (click)="onConfirm()"
+      >Report</button>
+    </div>
+  </ng-template>
+
+  <ng-template #reportStatus>
+    
+    <div *ngIf="submission!.kind === 'loading'">
+      <div class="d-flex justify-content-center p-5 fade-in">
+        <span class="loader"></span>
+      </div>
+    </div>
+    
+    <div *ngIf="submission!.kind === 'succeeded'">
+      <div class="d-flex justify-content-center p-5 fade-in">
+        <fa-icon [icon]="faCheck" size="3x" class="text-success fade-in"></fa-icon>
+      </div>
+    </div>
+
+    <div *ngIf="submission!.kind === 'failed'">
+      <div class="d-flex justify-content-center p-5 text-center text-primary">
+        <div class="shake">
+          <fa-icon [icon]="faExclamationTriangle" size="4x"></fa-icon>
+          <h5 class="fs-4 fw-bold pt-1">ERROR</h5>
+        </div>
+      </div>
+    </div>
+
+  </ng-template>
+</div>

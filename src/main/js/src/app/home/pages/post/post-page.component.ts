@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { faFacebook, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeletePostModalComponent } from '../../components/delete-post-modal/delete-post-modal.component';
+import { ReportPostModalComponent } from '../../components/report-post-modal/report-post-modal.component';
 
 
 @Component({
@@ -79,6 +80,11 @@ export class PostPageComponent implements OnInit {
 
   onDelete() {
     const modalRef = this.modalService.open(DeletePostModalComponent);
+    modalRef.componentInstance.post = this.post;
+  }
+
+  onReport() {
+    const modalRef = this.modalService.open(ReportPostModalComponent);
     modalRef.componentInstance.post = this.post;
   }
 

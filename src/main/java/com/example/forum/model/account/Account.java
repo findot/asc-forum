@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.example.forum.model.comment.Comment;
 import com.example.forum.model.post.Post;
+import com.example.forum.model.report.Report;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -59,6 +60,15 @@ public class Account {
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   @JsonIdentityReference(alwaysAsId = true)
   private List<Comment> comments;
+
+  @OneToMany(
+    mappedBy = "author",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+  )
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  @JsonIdentityReference(alwaysAsId = true)
+  private List<Report> reports;
 
   protected Account() {}
 
@@ -124,5 +134,8 @@ public class Account {
 
   public List<Comment> getComments()
   { return comments; }
+
+  public List<Report> getReports()
+  { return reports; }
 
 }

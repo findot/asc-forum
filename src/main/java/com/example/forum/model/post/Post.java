@@ -13,11 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import com.example.forum.model.account.Account;
-import com.example.forum.model.comment.Comment;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import com.example.forum.model.account.Account;
+import com.example.forum.model.comment.Comment;
+import com.example.forum.model.report.Report;
+
 
 @Entity
 public class Post {
@@ -40,7 +43,16 @@ public class Post {
   @JsonIdentityReference(alwaysAsId = true)
   private List<Comment> comments;
 
-  @Column()
+  @OneToMany(
+    mappedBy = "reported",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+  )
+  @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+  @JsonIdentityReference(alwaysAsId = true)
+  private List<Report> reports;
+
+  @Column(nullable = false)
   private Date published;
 
   @Column(length = 64, nullable = false)
@@ -81,6 +93,8 @@ public class Post {
     return that.getId() == this.id;
   }
   
+  // TODO hashCode
+
   public long getId()
   { return id; }
 
@@ -101,5 +115,8 @@ public class Post {
 
   public void addComment(Comment comment)
   { comments.add(comment); }
+
+  public void addReport(Report report)
+  { reports.add(report); }
 
 }

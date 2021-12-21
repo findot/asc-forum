@@ -4,17 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.forum.auth.AuthUserDetails;
-import com.example.forum.model.account.Account;
-import com.example.forum.model.comment.Comment;
-import com.example.forum.model.comment.CommentRepository;
-import com.example.forum.model.post.Post;
-import com.example.forum.model.post.PostRepository;
-import com.example.forum.controller.comment.CommentNotFoundException;
-import com.example.forum.controller.message.CommentRequest;
-import com.example.forum.controller.message.PostRequest;
-import com.example.forum.controller.post.PostNotFoundException;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,16 +17,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.forum.auth.AuthUserDetails;
+import com.example.forum.model.account.Account;
+import com.example.forum.model.comment.Comment;
+import com.example.forum.model.comment.CommentRepository;
+import com.example.forum.model.post.Post;
+import com.example.forum.model.post.PostRepository;
+import com.example.forum.model.report.Report;
+import com.example.forum.model.report.ReportRepository;
+import com.example.forum.controller.comment.CommentNotFoundException;
+import com.example.forum.controller.message.CommentRequest;
+import com.example.forum.controller.message.PostRequest;
+import com.example.forum.controller.message.ReportRequest;
+import com.example.forum.controller.post.PostNotFoundException;
+
 
 @RestController @RequestMapping(path = "/api/posts")
 public class PostController {
   
   private PostRepository posts;
-
   private CommentRepository comments;
+  private ReportRepository reports;
 
-  public PostController(PostRepository posts, CommentRepository comments)
-  { this.posts = posts; this.comments = comments; }
+  public PostController(
+    PostRepository posts,
+    CommentRepository comments,
+    ReportRepository reports
+  ) {
+    this.posts = posts;
+    this.comments = comments;
+    this.reports = reports;
+  }
 
   @CrossOrigin(origins = "*")
   @GetMapping("")
@@ -85,10 +95,31 @@ public class PostController {
     if (!post.isPresent())
       throw new PostNotFoundException(id);
 
-    if (post.get().getAuthor().getId() != account.getId())
+    if (!account.isAdmin() && !post.get().getAuthor().equals(account))
       throw new UnauthorizedActionException();
     
     posts.delete(post.get());
+  }
+
+  @PostMapping("{id}/report")
+  public Report report(
+    @PathVariable Long id,
+    @RequestBody ReportRequest newReport
+  ) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Account account = ((AuthUserDetails) auth.getPrincipal()).getAccount();
+    
+    Optional<Post> post = posts.findById(id);
+    if (!post.isPresent())
+      throw new PostNotFoundException(id);
+
+    Report report = new Report(
+      account,
+      post.get(),
+      newReport.getReason()
+    );
+
+    return reports.save(report);
   }
 
 

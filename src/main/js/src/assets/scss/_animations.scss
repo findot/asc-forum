@@ -1,6 +1,165 @@
+@use './variables';
+
+// SHAKE IN
+
+.giant-entrance {
+  animation: giant-entrance .5s ease-in both;
+}
+
+.shake {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+// -------------------------------------------------------------------- FADE IN
+
+.fade-in {
+  animation: fadeIn .5s ease-out;
+}
+
+// ---------------------------------------------------------------- BASE LOADER
+
+.loader {
+
+  position: relative;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+
+  animation: rotate 1s linear infinite;
+
+  &::before, &::after {
+
+    content: "";
+
+    position: absolute;
+
+    box-sizing: border-box;
+
+    inset: 0px;
+
+    border: 5px solid variables.$primary;
+    border-radius: 50%;
+
+    animation: prixClipFix 2s linear infinite ;
+
+  }
+
+  &::after{
+  
+    transform: rotate3d(90, 90, 0, 180deg );
+  
+    border-color: variables.$secondary;
+  
+  }
+
+}
+
+// ---------------------------------------------------------------- TWIN LOADER
+
+.loader-twin {
+
+  display: inline-block;
+  box-sizing: border-box;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 50%;
+  border-top: 4px solid variables.$primary;
+  border-right: 4px solid transparent;
+
+  animation: rotation 1s linear infinite;
+
+  &::after {
+
+    content: '';  
+
+    box-sizing: border-box;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+    border-left: 4px solid variables.$secondary;
+    border-bottom: 4px solid transparent;
+
+    animation: rotation 0.5s linear infinite reverse;
+
+  }
+
+}
+
+
+@keyframes giant-entrance {
+  0% {
+    transform: scale(10);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+
+@keyframes rotate {
+  0%   {transform: rotate(0deg)}
+  100%   {transform: rotate(360deg)}
+}
+
+
+@keyframes prixClipFix {
+    0%   {clip-path:polygon(50% 50%,0 0,0 0,0 0,0 0,0 0)}
+    50%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 0,100% 0,100% 0)}
+    75%, 100%  {clip-path:polygon(50% 50%,0 0,100% 0,100% 100%,100% 100%,100% 100%)}
+}
+
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 @keyframes bounce {
   0% { transform: scale(1); }
   50% { transform: scale(1.2); }
   100% { transform: scale(1.1); }
+}
+
+
+@keyframes fadeIn {
+  0% { opacity: 0%; }
+  100% { opacity: 100%; }
 }
