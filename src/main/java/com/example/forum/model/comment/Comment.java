@@ -35,7 +35,7 @@ public class Comment {
   @JsonIdentityReference(alwaysAsId = true)
   private Account author;
 
-  @Column(length = 512, nullable = false)
+  @Column(length = 4096, nullable = false)
   private String content;
 
   @Column(nullable = false)
