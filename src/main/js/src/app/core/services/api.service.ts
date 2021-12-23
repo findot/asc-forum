@@ -189,8 +189,28 @@ export class ApiService {
     );
   }
 
+  /**
+   * TODO
+   * 
+   * @param id 
+   * @param reason 
+   * @returns 
+   */
   public reportPost(id: number, reason: string) {
     return this.post(`/posts/${id}/report`, { reason });
+  }
+
+  /**
+   * TODO
+   * 
+   * @param id 
+   * @param reason 
+   * @returns 
+   */
+  public highlightPost(id: number) {
+    return this.post<Post, {}>(`/posts/${id}/highlight`, {}).pipe(
+      tap(p => { this.posts.set(p.id, p); })
+    );
   }
 
   /* ------------------------------- COMMENTS ------------------------------ */

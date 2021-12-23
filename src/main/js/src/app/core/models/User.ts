@@ -1,7 +1,9 @@
-
 export interface User {
   id        : number,
   username  : string,
   email     : string,
-  posts     : number[]
+  admin     : boolean,
+  closed    : boolean,
+  posts     : number[],
+  comments  : number[],
 }

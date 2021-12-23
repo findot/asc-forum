@@ -63,6 +63,8 @@ public class Post {
   @Column(length = 4096, nullable = false)
   private String content;
 
+  @Column(nullable = false)
+  private boolean highlighted;
 
   protected Post() {}
 
@@ -111,6 +113,12 @@ public class Post {
 
   public Account getAuthor()
   { return author; }
+
+  public boolean getHighlighted()
+  { return highlighted; }
+
+  public void setHighlighted(boolean highlighted)
+  { this.highlighted = highlighted; }
 
   public List<Comment> getComments()
   { return comments; }

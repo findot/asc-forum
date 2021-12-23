@@ -12,6 +12,7 @@ export class ActionButtonComponent implements OnInit {
   @Input() icon!: IconDefinition;
   @Input() variant: string = "light";
   @Input() tooltip?: string;
+  @CoerceBoolean() @Input() active?: boolean | string = false;
   @CoerceBoolean() @Input() disabled: boolean | string = false;
   @Input() click?: Function;
   
@@ -20,7 +21,9 @@ export class ActionButtonComponent implements OnInit {
   ngOnInit(): void {}
 
   get cssClass(): string {
-    return `btn btn-action rounded-circle m-1 mb-0 btn-outline-${this.variant}`;
+    const base = 'btn btn-action rounded-circle m-1 mb-0';
+    const active = this.active ? 'active' : '';
+    return `${base} btn-outline-${this.variant} ${active}`;
   }
 
 }

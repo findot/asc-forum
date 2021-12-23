@@ -33,6 +33,13 @@
           class="p-1 pb-0 d-flex justify-content-center"
         >
           <action-button
+            *ngIf="authService.connectedUser?.admin"
+            [active]="post?.highlighted"
+            [icon]="faStar"
+            tooltip="Highlight this post"
+            (click)="onHighlight()"
+          ></action-button>
+          <action-button
             disabled
             [icon]="faBell"
             tooltip="Get notified"

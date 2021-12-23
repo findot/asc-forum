@@ -49,7 +49,6 @@ public class PostController {
     this.reports = reports;
   }
 
-  @CrossOrigin(origins = "*")
   @GetMapping("")
   public List<Post> all() {
     List<Post> postsReturned = new ArrayList<Post>();
@@ -62,7 +61,6 @@ public class PostController {
     return postsReturned;
   }
 
-  @CrossOrigin(origins = "*")
   @PostMapping("")
   @ResponseStatus(code = HttpStatus.CREATED)
   public Post create(@RequestBody PostRequest newPost) {
@@ -99,6 +97,24 @@ public class PostController {
       throw new UnauthorizedActionException();
     
     posts.delete(post.get());
+  }
+
+  @PostMapping("{id}/highlight")
+  public Post highlight(@PathVariable Long id) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Account account = ((AuthUserDetails) auth.getPrincipal()).getAccount();
+
+    if (!account.isAdmin())
+      throw new UnauthorizedActionException();
+    
+    Optional<Post> highlightedPost = posts.findById(id);
+    if (!highlightedPost.isPresent())
+      throw new PostNotFoundException(id);
+    
+    Post post = highlightedPost.get();
+    post.setHighlighted(!post.getHighlighted());
+    
+    return posts.save(post);
   }
 
   @PostMapping("{id}/report")

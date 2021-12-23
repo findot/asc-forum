@@ -7,15 +7,21 @@
           Featured
         </div>
         <div class="card-body d-flex flex-column justify-content-between">
-          <h5 class="card-title">{{highlight.title}}</h5>
-          <p class="card-text">{{highlight.content}}</p>
-          <a href="/posts/{{highlight.id}}" class="btn btn-primary">See this post</a>
+          <h5 class="card-title">{{ highlight.title }}</h5>
+          <p class="card-text">{{ highlight.content }}</p>
+          <a [routerLink]="['/post', highlight.id]" class="btn btn-primary">See this post</a>
         </div>
         <div class="card-footer text-muted">
-          2 days ago
+          {{ highlight | datestring }}
         </div>
       </div>
     </column>
   </row>
+
+  <row *ngIf="highlights.length === 0"><column>
+    <h3 class="text-center fw-bold my-5 opacity-25">
+      No highlights right now, come back later!
+    </h3>
+  </column></row>
 
 </container>

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { mergeMap } from 'rxjs/operators';
 import { formatDistance } from 'date-fns';
-import { faBell, faComment, faFlag, faICursor, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faComment, faFlag, faICursor, faStar, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { Post } from 'src/app/core/models/Post';
 import { Comment } from 'src/app/core/models/Comment';
@@ -32,6 +32,7 @@ export class PostPageComponent implements OnInit {
   faFacebook  = faFacebookF;
   faFlag      = faFlag;
   faTrash     = faTrash;
+  faStar      = faStar;
 
   // Props
   id      ?: number;
@@ -76,6 +77,12 @@ export class PostPageComponent implements OnInit {
 
   onClear() {
     this.userComment = '';
+  }
+
+  onHighlight() {
+    this.apiService.highlightPost(this.post!.id).subscribe(post => {
+      this.post = post;
+    });
   }
 
   onDelete() {
