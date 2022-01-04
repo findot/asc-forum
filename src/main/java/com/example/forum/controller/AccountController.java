@@ -61,6 +61,9 @@ public class AccountController {
   @GetMapping("self")
   public Account self() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth == null)
+      throw new UnauthorizedActionException();
+  
     Account account = ((AuthUserDetails) auth.getPrincipal()).getAccount();
     return one(account.getId());
   }
@@ -68,6 +71,9 @@ public class AccountController {
   @PutMapping("self")
   public void update(@RequestBody PasswordUpdateRequest passwordUpdateRequest) {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth == null)
+      throw new UnauthorizedActionException();
+
     Account account = ((AuthUserDetails) auth.getPrincipal()).getAccount();
     registrationService.updatePassword(
       account,

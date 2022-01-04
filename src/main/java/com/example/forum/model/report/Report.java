@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GenerationType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -32,6 +33,7 @@ public class Report {
   @JsonIdentityReference(alwaysAsId = true)
   private Account author;
 
+  @JoinColumn(name = "post_id")
   @ManyToOne(fetch = FetchType.LAZY)
   @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
   @JsonIdentityReference(alwaysAsId = true)
