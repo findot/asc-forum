@@ -1,5 +1,6 @@
 package com.example.forum.model.account;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -42,6 +43,9 @@ public class Account {
 
   @Column(nullable = false)
   private boolean admin;
+  
+  @Column(nullable = false)
+  private Date registered;
 
   @OneToMany(
     mappedBy = "author",
@@ -81,6 +85,7 @@ public class Account {
     this.password = password;
     this.admin = admin;
     this.closed = false;
+    this.registered = new Date();
   }
 
   @Override
@@ -131,6 +136,9 @@ public class Account {
 
   public boolean isAdmin()
   { return this.admin; }
+
+  public Date getRegistered()
+  { return this.registered; }
 
   public List<Post> getPosts()
   { return posts; }

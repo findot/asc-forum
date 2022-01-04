@@ -9,6 +9,8 @@ CREATE TABLE accounts (
   closed      BOOLEAN         NOT NULL DEFAULT FALSE,
   admin       BOOLEAN         NOT NULL DEFAULT FALSE,
 
+  registered  DATETIME        NOT NULL DEFAULT NOW(),
+
   PRIMARY KEY (id),
 
   CONSTRAINT unique_username  UNIQUE(username),

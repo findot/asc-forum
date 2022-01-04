@@ -8,7 +8,7 @@ import { Publication } from 'src/app/core/interfaces/Publication';
 @Pipe({ name: 'datestring' })
 export class DatestringPipe implements PipeTransform {
 
-  transform(publication?: Publication): unknown {
+  transform(publication?: Publication): string {
     if (!publication) return '';
     
     const now = new Date();

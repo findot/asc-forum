@@ -11,6 +11,7 @@ import com.example.forum.auth.AuthUserDetails;
 import com.example.forum.auth.RegistrationService;
 import com.example.forum.model.account.Account;
 import com.example.forum.model.account.AccountRepository;
+import com.example.forum.model.comment.Comment;
 import com.example.forum.model.post.Post;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,6 +43,13 @@ public class AccountController {
     this.repository = repository;
   }
 
+  private Account getAccount() {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth == null)
+      throw new UnauthorizedActionException();
+    return ((AuthUserDetails) auth.getPrincipal()).getAccount();
+  }
+
   @GetMapping("")
   public List<Account> all() {
     List<Account> accounts = new ArrayList<Account>();
@@ -60,21 +68,13 @@ public class AccountController {
 
   @GetMapping("self")
   public Account self() {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    if (auth == null)
-      throw new UnauthorizedActionException();
-  
-    Account account = ((AuthUserDetails) auth.getPrincipal()).getAccount();
+    Account account = getAccount();
     return one(account.getId());
   }
 
   @PutMapping("self")
   public void update(@RequestBody PasswordUpdateRequest passwordUpdateRequest) {
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    if (auth == null)
-      throw new UnauthorizedActionException();
-
-    Account account = ((AuthUserDetails) auth.getPrincipal()).getAccount();
+    Account account = getAccount();
     registrationService.updatePassword(
       account,
       passwordUpdateRequest.getOldPassword(),
@@ -89,5 +89,25 @@ public class AccountController {
       return account.get().getPosts();
     throw new AccountNotFoundException(id);
   }
+
+  @GetMapping("self/posts")
+  public List<Post> selfPosts() {
+    Account account = getAccount();
+    return posts(account.getId());
+  }
   
+  @GetMapping("{id}/comments")
+  public List<Comment> comments(@PathVariable Long id) {
+    Optional<Account> account = repository.findById(id);
+    if (account.isPresent())
+      return account.get().getComments();
+    throw new AccountNotFoundException(id);
+  }
+
+  @GetMapping("self/comments")
+  public List<Comment> selfComments() {
+    Account account = getAccount();
+    return comments(account.getId());
+  }
+
 }

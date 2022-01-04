@@ -1,3 +1,19 @@
+@use '../../../../assets/scss/variables';
+
+.profile-content {
+  height: calc(100% - 68px - 40px);
+}
+
+.row, .profile-publications {
+  height: 100%;
+}
+
+.profile-publications {
+  padding: 0 1rem;;
+  height: calc(100% - 88px);
+  overflow-y: scroll;
+}
+
 .profile {
   margin-top: 50px;
 
@@ -7,3 +23,42 @@
   }
 }
 
+.profile-publications::-webkit-scrollbar {
+  width: 1em;
+}
+
+.profile-publications::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.profile-publications::-webkit-scrollbar-thumb {
+  background-color: variables.$primary;
+}
+
+.publication {
+
+  transition: .2s ease-in;
+
+  .card {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+  
+  &:not(:last-of-type) {
+    margin-bottom: 0.625rem;
+  }
+
+  &:hover {
+    
+    cursor: pointer;
+    transform: scale(1.025);
+    color: variables.$light;
+    transition: .2s ease-out;
+  
+    .card-header, .card-body, .card-footer {
+      background: variables.$primary;
+    }
+
+  }
+
+}

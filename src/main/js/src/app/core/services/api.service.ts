@@ -137,9 +137,7 @@ export class ApiService {
   }
 
   public getAccountPosts(accountID: number | 'self'): Observable<Post[]> {
-    return this.getAccount(accountID).pipe(mergeMap(account =>
-      forkJoin(account.posts.map(postId => this.getPostById(postId)))
-    ));
+    return this.get<Post[]>(`/accounts/${accountID}/posts`);
   }
 
   /**
@@ -188,9 +186,7 @@ export class ApiService {
 
   // TODO
   public getAccountComments(accountID: number | 'self'): Observable<Comment[]> {
-    return this.getAccount(accountID).pipe(mergeMap(account =>
-      forkJoin(account.comments.map(commentId => this.getCommentById(commentId)))
-    ));
+    return this.get<Comment[]>(`/accounts/${accountID}/comments`);
   }
 
   /**

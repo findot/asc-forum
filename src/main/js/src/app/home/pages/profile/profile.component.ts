@@ -1,15 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { faComment, faHeading } from '@fortawesome/free-solid-svg-icons';
-import { forkJoin, merge, of } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { faComment, faFeatherAlt, faHeading } from '@fortawesome/free-solid-svg-icons';
+
+import { forkJoin } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
-import { OrdPublished, Publication } from 'src/app/core/interfaces/Publication';
-import { Account } from 'src/app/core/models/Account';
-import { Post } from 'src/app/core/models/Post';
-import { ApiService } from 'src/app/core/services/api.service';
-import { AuthService } from 'src/app/core/services/auth.service';
 import * as A from 'fp-ts/Array';
 import { pipe } from 'fp-ts/function';
+
+import { OrdPublished, Publication } from 'src/app/core/interfaces/Publication';
+import { Account } from 'src/app/core/models/Account';
+import { ApiService } from 'src/app/core/services/api.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { isPost, isComment } from 'src/app/core/interfaces/Publication';
+import { formatDistance } from 'date-fns';
+
 
 @Component({
   selector: 'app-profile',
@@ -20,12 +24,17 @@ export class ProfileComponent implements OnInit {
 
   faHeading = faHeading;
   faComment = faComment;
+  faFeatherAlt = faFeatherAlt;
 
   account?: Account;
   publications: Publication[] = [];
   
+  isPost = isPost;
+  isComment = isComment;
+
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private apiService: ApiService,
     private authService: AuthService
   ) {}
@@ -49,5 +58,16 @@ export class ProfileComponent implements OnInit {
       );
     });
   }
+ 
+  public get registration(): string {
+    if (!this.account) return '';
+    
+    const now = new Date();
+    const registrationDate = Date.parse(this.account.registered);
+    return formatDistance(registrationDate, now, { addSuffix: true });
+  }
   
+  onPublicationClick(postID: number): void
+  { this.router.navigate(['post', postID]); }
+
 }

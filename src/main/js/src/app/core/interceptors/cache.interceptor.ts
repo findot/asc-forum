@@ -15,7 +15,6 @@ export class CacheInterceptor implements HttpInterceptor {
   private cachingTime = 5 * 1000;
   
   intercept<T, U>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<U>> {
-    console.log('CACHE INTERCEPTOR');
     const cached = this.requests.get(req.url);
     if (req.method === 'GET' && cached !== undefined)
       return of(cached as HttpResponse<U>);
