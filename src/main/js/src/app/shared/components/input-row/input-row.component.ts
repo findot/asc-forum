@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
-import { RowComponent } from 'src/app/shared/components/row/row.component';
+import { RowComponent } from 'src/app/shared/components/bootstrap/row/row.component';
 import { Order, Sized, Span } from 'src/app/shared/model/Sizing';
 
 @Component({

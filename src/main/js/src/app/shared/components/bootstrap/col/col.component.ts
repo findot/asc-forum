@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input } from '@angular/core';
-import { Span, Sized, SizedComponent, } from '../../model/Sizing';
+import { Span, Sized, SizedComponent, } from '../../../model/Sizing';
 
 @Component({ selector: 'column', templateUrl: './col.component.html' })
 export class ColComponent extends SizedComponent {

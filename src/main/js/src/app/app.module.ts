@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { httpInterceptorProviders } from './core/interceptors';
 
 
 @NgModule({
@@ -26,7 +27,9 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     HomeModule,
     AuthModule
   ],
-  providers: [],
+  providers: [
+    httpInterceptorProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

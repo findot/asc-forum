@@ -5,15 +5,23 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.forum.controller.account.AccountNotFoundException;
+import com.example.forum.controller.account.InvalidPasswordException;
+import com.example.forum.controller.message.PasswordUpdateRequest;
 import com.example.forum.auth.AuthUserDetails;
+import com.example.forum.auth.RegistrationService;
 import com.example.forum.model.account.Account;
 import com.example.forum.model.account.AccountRepository;
 import com.example.forum.model.post.Post;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +31,16 @@ public class AccountController {
   
   private AccountRepository repository;
 
-  public AccountController(AccountRepository repository)
-  { this.repository = repository; }
+  private final RegistrationService registrationService;
+  
+
+  public AccountController(
+    AccountRepository repository,
+    RegistrationService registrationService
+  ) {
+    this.registrationService = registrationService;
+    this.repository = repository;
+  }
 
   @GetMapping("")
   public List<Account> all() {
@@ -47,6 +63,17 @@ public class AccountController {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     Account account = ((AuthUserDetails) auth.getPrincipal()).getAccount();
     return one(account.getId());
+  }
+
+  @PutMapping("self")
+  public void update(@RequestBody PasswordUpdateRequest passwordUpdateRequest) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Account account = ((AuthUserDetails) auth.getPrincipal()).getAccount();
+    registrationService.updatePassword(
+      account,
+      passwordUpdateRequest.getOldPassword(),
+      passwordUpdateRequest.getNewdPassword()
+    );
   }
 
   @GetMapping("{id}/posts")

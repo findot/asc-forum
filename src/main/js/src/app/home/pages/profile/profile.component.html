@@ -1,0 +1,25 @@
+<container class="profile-content my-3">
+  <row>
+    <column [size]="9">
+      <div *ngFor="let publication of publications">
+        {{ publication.id }}
+      </div>
+    </column>
+    <column [size]="3" class="profile position-sticky">
+      <card no-border background="primary" text="light">
+        <card-body class="text-center">
+          <div class="avatar-container">
+            <avatar size="4x" class="mx-auto text-primary"></avatar>
+          </div>
+          <h4 class="card-title fw-bold">{{account?.username}}</h4>
+          <hr>
+          <p>
+            Member since: 2 days ago<br>
+            <fa-icon [icon]="faHeading" class="pe-1"></fa-icon>{{account?.posts?.length}} post(s)<br>
+            <fa-icon [icon]="faComment" class="pe-1"></fa-icon>{{account?.comments?.length}} comment(s)<br>
+          </p>
+        </card-body>
+      </card>
+    </column>
+  </row>
+</container>

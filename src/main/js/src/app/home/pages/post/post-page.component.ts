@@ -2,15 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { mergeMap } from 'rxjs/operators';
-import { formatDistance } from 'date-fns';
 import { faBell, faComment, faFlag, faICursor, faStar, faTimes, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import { Post } from 'src/app/core/models/Post';
 import { Comment } from 'src/app/core/models/Comment';
 import { ApiService } from 'src/app/core/services/api.service';
-import { User } from 'src/app/core/models/User';
+import { Account } from 'src/app/core/models/Account';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { faFacebook, faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeletePostModalComponent } from '../../components/delete-post-modal/delete-post-modal.component';
 import { ReportPostModalComponent } from '../../components/report-post-modal/report-post-modal.component';
@@ -37,7 +36,7 @@ export class PostPageComponent implements OnInit {
   // Props
   id      ?: number;
   post    ?: Post;
-  author  ?: User;
+  author  ?: Account;
   comments?: Comment[];
 
   // FormControl

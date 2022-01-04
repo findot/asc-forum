@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, flatMap, map, mergeMap, share } from 'rxjs/operators';
+import { catchError, map, mergeMap, share } from 'rxjs/operators';
 import { forkJoin, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { User } from '../models/User';
+import { Account } from '../models/Account';
 import { RequestFailure } from '../interfaces/Async';
 import { Stored, StoredService } from '../lib';
 import jwtDecode from 'jwt-decode';
@@ -19,7 +19,7 @@ export class AuthService extends StoredService {
   private userEndpoint: string = '/api/accounts/self';
 
   // Account
-  private account?: User;
+  private account?: Account;
 
   @Stored() private token?: string;
   private refreshTimeout?: ReturnType<typeof setTimeout>;
@@ -28,7 +28,7 @@ export class AuthService extends StoredService {
 
   constructor(private httpClient: HttpClient) {
     super();
-    if (this.token) {
+    if (this.token && this.connected) {
       this.setupRefreshLoop();
       this.fetchTokenAccount(this.token).subscribe(
         account => { this.account = account; }
@@ -41,7 +41,7 @@ export class AuthService extends StoredService {
   private setupRefreshLoop(): void {
     if (!this.connected) throw new Error('Not connected');
     
-    const decodedToken: JWTToken = jwtDecode(this.token as string);
+    const decodedToken = jwtDecode<JWTToken>(this.token as string);
     
     // Expiration time, in seconds
     const expiration      = decodedToken.exp;
@@ -57,12 +57,13 @@ export class AuthService extends StoredService {
     
     console.warn(`Token will refresh in ${Math.max(remaining - preventionTime, 0)} minute(s)`);
     this.refreshTimeout = setTimeout(() => {
-      clearTimeout(this.refreshTimeout as unknown as number);
+      clearTimeout(this.refreshTimeout as unknown as number); // Node type conflict
       
       this.httpClient.get<{ token: string }>(
         `${this.endpoint}/refresh`,
-        { headers: { Authorization: `Bearer ${this.token}` }}
-      ).pipe(catchError(() => this.logout())).subscribe(response => {
+      )
+      .pipe(catchError(() => this.logout()))
+      .subscribe(response => {
         // TODO - Investigate catchError boolean
         if (typeof response === 'boolean') return;
         this.token = response.token;
@@ -77,8 +78,8 @@ export class AuthService extends StoredService {
     return of(error);
   }
 
-  private fetchTokenAccount(token: string): Observable<User> {
-    return this.httpClient.get<User>(
+  private fetchTokenAccount(token: string): Observable<Account> {
+    return this.httpClient.get<Account>(
       this.userEndpoint,
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -97,10 +98,14 @@ export class AuthService extends StoredService {
    * Whether the user is connected or not.
    */
   public get connected(): boolean {
-    return this.token !== null && this.token !== undefined;
+    return (
+      this.token !== null &&
+      this.token !== undefined &&
+      new Date(jwtDecode<JWTToken>(this.token).exp * 1000) > new Date()
+    );
   }
 
-  public get connectedUser(): User | null {
+  public get connectedUser(): Account | null {
     if (!this.connected)
       return null;
     return this.account!;

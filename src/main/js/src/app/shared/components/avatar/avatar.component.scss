@@ -1,0 +1,19 @@
+.avatar {
+  
+  position: relative;
+
+  @for $i from 1 through 5 {
+    &-#{$i}x {
+      width: 1.5rem * $i;
+      height: 1.5rem * $i;
+    }
+  }
+
+  fa-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+}

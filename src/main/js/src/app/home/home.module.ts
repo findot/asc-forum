@@ -17,6 +17,7 @@ import { CommentComponent } from './components/comment/comment.component';
 import { ActionButtonComponent } from './components/action-button/action-button.component';
 import { DeletePostModalComponent } from './components/delete-post-modal/delete-post-modal.component';
 import { ReportPostModalComponent } from './components/report-post-modal/report-post-modal.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ReportPostModalComponent } from './components/report-post-modal/report-
     CommentComponent,
     ActionButtonComponent,
     DeletePostModalComponent,
-    ReportPostModalComponent
+    ReportPostModalComponent,
+    ProfileComponent
   ],
   exports: [
     HomeComponent

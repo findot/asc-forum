@@ -40,4 +40,13 @@ public class AccountAdvice {
     return new JsonError(404, reason);
   }
 
+  @ResponseBody
+  @ExceptionHandler(InvalidPasswordException.class)
+  @ResponseStatus(HttpStatus.FORBIDDEN)
+  JsonError accountNotFoundHandler(InvalidPasswordException ex) {
+    HashMap<String, String> reason = new HashMap<String, String>();
+    reason.put("invalid", "password");
+    return new JsonError(403, reason);
+  }
+
 }

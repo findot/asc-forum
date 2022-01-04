@@ -1,5 +1,5 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
-import { assert, CoerceBoolean } from '../../../core/lib';
+import { assert, CoerceBoolean } from '../../../../core/lib';
 
 
 @Component({ selector: 'container', templateUrl: './container.component.html' })

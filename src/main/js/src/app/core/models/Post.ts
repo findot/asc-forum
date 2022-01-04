@@ -4,13 +4,14 @@ import { Ordering } from 'fp-ts/Ordering';
 
 
 export interface Post extends Publication {
-  id          : number,
-  author      : number,
-  title       : String,
-  content     : String,
-  comments    : number[],
-  published   : string,
-  highlighted : boolean
+  readonly tag  : 'Post';
+  id            : number,
+  author        : number,
+  title         : String,
+  content       : String,
+  comments      : number[],
+  published     : string,
+  highlighted   : boolean
 }
 
 export const PostOrdId: Ord<Post> = {

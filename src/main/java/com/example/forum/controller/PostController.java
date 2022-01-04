@@ -75,7 +75,6 @@ public class PostController {
 
 
   @GetMapping("{id}")
-  @ResponseStatus(code = HttpStatus.CREATED)
   public Post one(@PathVariable Long id) {
     Optional<Post> post = posts.findById(id);
     if (post.isPresent())

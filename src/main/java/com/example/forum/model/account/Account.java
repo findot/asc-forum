@@ -123,6 +123,9 @@ public class Account {
   public String getPassword()
   { return password; }
 
+  public void setPassword(String password)
+  { this.password = password; }
+
   public boolean isClosed()
   { return this.closed; }
 

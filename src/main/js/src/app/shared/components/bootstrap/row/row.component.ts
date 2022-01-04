@@ -1,6 +1,6 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { CoerceBoolean } from 'src/app/core/lib';
-import { Order, Sized, SizedComponent } from '../../model/Sizing';
+import { Order, Sized, SizedComponent } from '../../../model/Sizing';
 
 
 @Component({ selector: 'row', templateUrl: './row.component.html' })

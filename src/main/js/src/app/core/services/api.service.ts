@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Post } from '../models/Post'
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { AuthService } from './auth.service';
-import { map, share, tap } from 'rxjs/operators';
-import { User } from '../models/User';
+import { map, mergeMap, share, tap } from 'rxjs/operators';
+import { Account } from '../models/Account';
 import { Comment } from '../models/Comment';
 import { CommentRequest, PostRequest } from '../interfaces/Messages';
 
@@ -16,9 +16,9 @@ export class ApiService {
   private url: string = '/api';
 
   // Caching
-  posts   : Map<number, Post>                 = new Map();
-  accounts: Map<number, User>                 = new Map();
-  comments: Map<number, Map<number, Comment>> = new Map();
+  _posts   : Map<number, Post>                  = new Map();
+  _accounts: Map<number, Account>               = new Map();
+  _comments: Map<number, Map<number, Comment>>  = new Map();
 
   private requests: Map<string, Observable<any>> = new Map();
   private cachingTime: number = 30;
@@ -126,8 +126,8 @@ export class ApiService {
    * @returns An observable of the request which will result in an account
    *          if such account exist, an error otherwise.
    */
-  public getAccount(id: number): Observable<User> {
-    return this.get<User>(`/accounts/${id}`);
+  public getAccount(id: number | 'self'): Observable<Account> {
+    return this.get<Account>(`/accounts/${id}`);
   }
 
   /* -------------------------------- POSTS -------------------------------- */
@@ -143,7 +143,7 @@ export class ApiService {
    */
   public createPost(post: PostRequest) {
     return this.post<Post, PostRequest>('/posts', post).pipe(
-      tap(post => this.posts.set(post.id!, post))
+      tap(post => this._posts.set(post.id!, post))
     );
   }
 
@@ -155,7 +155,7 @@ export class ApiService {
   public deletePost(id: number) {
     // TODO - Check cached requests
     return this.delete(`/posts/${id}`).pipe(
-      tap(() => this.posts.delete(id))
+      tap(() => this._posts.delete(id))
     );
   }
 
@@ -171,7 +171,7 @@ export class ApiService {
         (ps, p) => ps.set(p.id!, p),
         new Map<number, Post>()
       ))
-    ).pipe(tap(posts => { this.posts = posts; }))
+    ).pipe(tap(posts => { this._posts = posts; }))
   }
 
   /**
@@ -182,11 +182,17 @@ export class ApiService {
    *          post exist, an error otherwise.
    */
   public getPostById(id: number): Observable<Post> {
-    if (this.posts.has(id)) return of(this.posts.get(id)!);
+    if (this._posts.has(id)) return of(this._posts.get(id)!);
     
     return this.get<Post>(`/posts/${id}`).pipe(
-      tap(post => this.posts.set(post.id!, post))
+      tap(post => this._posts.set(post.id!, post))
     );
+  }
+
+  public getAccountPosts(accountID: number | 'self'): Observable<Post[]> {
+    return this.getAccount(accountID).pipe(mergeMap(account =>
+      forkJoin(account.posts.map(postId => this.getPostById(postId)))
+    ));
   }
 
   /**
@@ -209,7 +215,7 @@ export class ApiService {
    */
   public highlightPost(id: number) {
     return this.post<Post, {}>(`/posts/${id}/highlight`, {}).pipe(
-      tap(p => { this.posts.set(p.id, p); })
+      tap(p => { this._posts.set(p.id, p); })
     );
   }
 
@@ -222,19 +228,31 @@ export class ApiService {
    *          map of comments.  
    */
   public getComments(postId: number): Observable<Map<number, Comment>> {
-    const localComments = this.comments.get(postId);
+    const localComments = this._comments.get(postId);
     if (localComments !== undefined && localComments !== null)
       return of(localComments);
     
     return this.get<Comment[]>(`/posts/${postId}/comments`).pipe(
       map(comments => {
-        this.comments.set(postId, comments.reduce(
+        this._comments.set(postId, comments.reduce(
           (cs, c) => cs.set(c.id!, c),
           new Map<number, Comment>()
         ));
-        return this.comments.get(postId)!;
+        return this._comments.get(postId)!;
       })
     );
+  }
+
+  // TODO
+  public getCommentById(id: number): Observable<Comment> {
+    return this.get<Comment>(`/comments/${id}`); // TODO - Caching
+  }
+
+  // TODO
+  public getAccountComments(accountID: number | 'self'): Observable<Comment[]> {
+    return this.getAccount(accountID).pipe(mergeMap(account =>
+      forkJoin(account.comments.map(commentId => this.getCommentById(commentId)))
+    ));
   }
 
   /**
@@ -251,7 +269,7 @@ export class ApiService {
     return this.post<Comment, CommentRequest>(
       `/posts/${postId}/comments`,
       { content }
-    ).pipe(tap(comment => this.comments.get(postId)?.set(comment.id, comment)));
+    ).pipe(tap(comment => this._comments.get(postId)?.set(comment.id, comment)));
   }
 
 }

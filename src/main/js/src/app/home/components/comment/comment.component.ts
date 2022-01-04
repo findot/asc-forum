@@ -1,8 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Comment } from 'src/app/core/models/Comment';
-import { User } from 'src/app/core/models/User';
-import { ApiService } from 'src/app/core/services/api.service';
-import { formatDistance } from 'date-fns';
 
 
 @Component({
@@ -10,12 +7,8 @@ import { formatDistance } from 'date-fns';
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.scss']
 })
-export class CommentComponent implements OnInit {
+export class CommentComponent {
 
   @Input() comment?: Comment;
   
-  constructor() {}
-
-  ngOnInit(): void {}
-
 }
