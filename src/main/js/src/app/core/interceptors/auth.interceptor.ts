@@ -18,14 +18,14 @@ export class AuthInterceptor implements HttpInterceptor {
     const tokenString = localStorage.getItem('token');
     if (tokenString === null)
       return O.none;
-    return O.some(tokenString);
+    return O.some(JSON.parse(tokenString));
   }
 
   private connected(): boolean {
     return pipe(
       this.token,
       O.map(token => jwtDecode<JWTToken>(token)),
-      O.map(token => new Date(token.exp * 1000) < new Date()),
+      O.map(token => new Date(token.exp * 1000) > new Date()),
       O.getOrElse(() => false as boolean)
     );
   }
@@ -33,7 +33,10 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept<T, U>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<U>> {
     if (this.connected()) {
       const token = O.getOrElse(() => '')(this.token);
-      req.headers.set('Authorization', `Bearer ${token}`);
+      console.log(token);
+      req = req.clone({
+        headers: req.headers.set('Authorization', `Bearer ${token}`)
+      });
     }
     return next.handle(req);
   }

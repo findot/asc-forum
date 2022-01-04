@@ -2,9 +2,17 @@ import { Injectable, Input } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
+
 export function assert(condition: boolean, message?: string) {
   if (!condition) throw new Error(message);
 }
+
+
+export const trace = <T>(x: T): T => {
+  console.log(x);
+  return x;
+};
+
 
 // Decorator
 export function CoerceBoolean(): PropertyDecorator {
@@ -66,7 +74,7 @@ export class StoredService {
 }
 
 // TODO - Place somewhere else
-export function Stored(awakeningFunctionName?: string): PropertyDecorator {
+export function Stored<T>(awakeningFunctionName?: string): PropertyDecorator {
   return function(obj: any, propertyKey: string | symbol) {
     
     if (!(obj instanceof StoredService))
@@ -79,10 +87,10 @@ export function Stored(awakeningFunctionName?: string): PropertyDecorator {
 
     Object.defineProperty(obj, propertyKey, {
       // function used over fat arrow syntax to preserve the value of `this`
-      get: function(): unknown {
+      get: function(): T {
         return this[`_${String(propertyKey)}`];
       },
-      set: function(value: unknown): void {
+      set: function(value: T): void {
         this[`_${String(propertyKey)}`] = value;
         if (value === undefined || value === null)
           return window.localStorage.removeItem(String(propertyKey));

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faICursor, faInfoCircle, faItalic } from '@fortawesome/free-solid-svg-icons';
+import { trace } from 'src/app/core/lib';
 import { ApiService } from 'src/app/core/services/api.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -28,7 +29,7 @@ export class CreatePostComponent implements OnInit {
   onSubmit() {
     this.apiService
       .createPost({ title: this.title, content: this.content })
-      .subscribe(post => this.router.navigate(["post", post.id]));
+      .subscribe(post => this.router.navigate(["post", trace(post).id]));
   }
 
   get connected(): boolean

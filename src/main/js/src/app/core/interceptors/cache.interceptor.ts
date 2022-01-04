@@ -11,13 +11,13 @@ import { tap } from 'rxjs/operators';
 export class CacheInterceptor implements HttpInterceptor {
 
   private blacklist = ['/login', '/register', '/logout'];
-  private requests = new Map<string, any>();
-  private cachingTime = 60 * 1000;
+  private requests = new Map<string, HttpResponse<any>>();
+  private cachingTime = 5 * 1000;
   
   intercept<T, U>(req: HttpRequest<T>, next: HttpHandler): Observable<HttpEvent<U>> {
-    
+    console.log('CACHE INTERCEPTOR');
     const cached = this.requests.get(req.url);
-    if (cached !== undefined)
+    if (req.method === 'GET' && cached !== undefined)
       return of(cached as HttpResponse<U>);
     
     if (req.method !== 'GET' || this.blacklist.includes(req.url))

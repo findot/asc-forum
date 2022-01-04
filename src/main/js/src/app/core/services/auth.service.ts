@@ -21,7 +21,7 @@ export class AuthService extends StoredService {
   // Account
   private account?: Account;
 
-  @Stored() private token?: string;
+  @Stored<string>() private token?: string;
   private refreshTimeout?: ReturnType<typeof setTimeout>;
 
   /* --------------------------------- CTOR -------------------------------- */
