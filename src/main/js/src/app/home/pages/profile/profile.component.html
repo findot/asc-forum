@@ -1,8 +1,8 @@
 <container class="profile-content my-3">
   <row>
 
-    <column [size]="{ base: 12, md: 9 }" [order]="2" class="h-100">
-      <h2 class="fw-bold text-primary">Your publications</h2>
+    <column [size]="{ base: 12, lg: 8 }" [order]="2" class="h-100">
+      <h2 class="fw-bold text-primary pt-5">Your publications</h2>
       <hr>
       <div class="profile-publications">
         <div *ngFor="let publication of publications" class="publication">
@@ -43,7 +43,7 @@
       </div>
     </column>
 
-    <column [size]="{ base: 12, md: 3 }" class="profile" [order]="1">
+    <column [size]="{ base: 12, lg: 4 }" class="profile" [order]="1">
       <card no-border background="primary" text="light">
         <card-body class="text-center">
           <div class="avatar-container">

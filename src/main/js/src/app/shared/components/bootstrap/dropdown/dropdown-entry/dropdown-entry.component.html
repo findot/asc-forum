@@ -1,0 +1,23 @@
+<button
+  type="button"
+  class="btn dropdown-toggle"
+
+  [id]="id"
+  data-bs-toggle="dropdown"
+  [attr.aria-expanded]="shown"
+  
+  [class.btn-primary]="variant == 'primary'"
+  [class.btn-secondary]="variant == 'secondary'"
+  [class.btn-info]="variant == 'info'"
+  [class.btn-success]="variant == 'success'"
+  [class.btn-warning]="variant == 'warning'"
+  [class.btn-danger]="variant == 'danger'"
+  [class.btn-light]="variant == 'light'"
+  [class.btn-dark]="variant == 'dark'"
+  [class.rounded]="rounded"
+  [class.rounded-circle]="roundedCircle"
+
+  (click)="onClick()"
+>
+  <ng-content></ng-content>
+</button>

@@ -20,6 +20,15 @@ import { SearchboxComponent } from './components/nav/searchbox/searchbox.compone
 import { SectionsLinksComponent } from './components/nav/sections-links/sections-links.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { LogoComponent } from './components/logo/logo.component';
+import { DropdownComponent } from './components/bootstrap/dropdown/dropdown.component';
+import { DropdownEntryComponent } from './components/bootstrap/dropdown/dropdown-entry/dropdown-entry.component';
+import { DropdownItemComponent } from './components/bootstrap/dropdown/dropdown-item/dropdown-item.component';
+import { DropdownDividerComponent } from './components/bootstrap/dropdown/dropdown-divider/dropdown-divider.component';
+import { DropdownMenuComponent } from './components/bootstrap/dropdown/dropdown-menu/dropdown-menu.component';
+import { NoBorderDirective } from './directives/no-border.directive';
+import { BorderDirective } from './directives/border.directive';
+import { ShadowDirective } from './directives/shadow.directive';
+import { NoShadowDirective } from './directives/no-shadow.directive';
 
 
 @NgModule({
@@ -39,7 +48,17 @@ import { LogoComponent } from './components/logo/logo.component';
     SearchboxComponent,
     SectionsLinksComponent,
     LogoComponent,
-    NavComponent
+    NavComponent,
+    
+    DropdownComponent,
+    DropdownEntryComponent,
+    DropdownItemComponent,
+    DropdownDividerComponent,
+    DropdownMenuComponent,
+    NoBorderDirective,
+    BorderDirective,
+    ShadowDirective,
+    NoShadowDirective
   ],
   exports: [
     ContainerComponent,

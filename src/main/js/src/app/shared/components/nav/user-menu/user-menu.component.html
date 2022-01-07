@@ -9,63 +9,102 @@
 </div>
 
 <div *ngIf="authService.connected" class="d-flex flex-end justify-content-end">
+  
+  <!--
   <div class="notification-menu">
     <button class="btn btn-light rounded-circle me-2">
       <fa-icon [icon]="faBell"></fa-icon>
     </button>
   </div>
 
-  <div class="user-menu">
-    <div
-      ngbDropdown
-      class="btn-group"
-    >
-      <button
-        ngbDropdownToggle
-        id="user-menu-button"  
-        class="dropdown-toggle btn btn-light rounded-circle"
-      ></button>
-  
-      <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end border-0 p-2" aria-labelledby="user-menu-button">
-        
-        <li class="dropdown-item rounded">
-          <a routerLink="/profile" class="d-flex align-items-center">
-            <avatar size="2x"></avatar>
-            <div class="ps-2">
-              <div class="username fw-bold">
-                {{ authService.connectedUser?.username }}
-              </div>
-              <div class="text-muted">See your profile</div>
-            </div>
-          </a>
-        </li>
-        
-        <li class="divider"><hr class="dropdown-divider"></li>
-
-        <li class="dropdown-item rounded">
-          <a routerLink="/settings" class="d-flex align-items-center">
-            <div class="bg-light rounded-circle p-1 settings-icon">
-              <fa-icon [icon]="faCog"></fa-icon>
-            </div>
-            <div class="ps-1">
-              Settings
-            </div>
-          </a>
-        </li>
-
-        <li class="dropdown-item rounded">
-          <a routerLink="/logout" class="d-flex align-items-center">
-            <div class="bg-light rounded-circle p-1 disconnect-icon">
-              <fa-icon [icon]="faDoorOpen"></fa-icon>
-            </div>
-            <div class="ps-1">
-              Disconnect
-            </div>
-          </a>
-        </li>
+  <dropdown class="user-menu" id="user-menu">
+    <dropdown-entry variant="light" rounded-circle></dropdown-entry>
+    <dropdown-menu align="end" no-border shadow="sm">
       
-      </ul>
-    </div>
+      <dropdown-item link="/profile" class="d-flex align-items-center">
+        <avatar size="2x"></avatar>
+        <div class="ps-2">
+          <div class="username fw-bold">
+            {{ authService.connectedUser?.username }}
+          </div>
+          <div class="text-muted">See your profile</div>
+        </div>
+      </dropdown-item>
+
+      <dropdown-divider></dropdown-divider>
+
+      <dropdown-item link="/settings" class="d-flex align-items-center">
+        <div class="bg-light rounded-circle p-1 settings-icon">
+          <fa-icon [icon]="faCog"></fa-icon>
+        </div>
+        <div class="ps-1">
+          Settings
+        </div>
+      </dropdown-item>
+
+      <dropdown-item link="/logout" class="d-flex align-items-center">
+        <div class="bg-light rounded-circle p-1 disconnect-icon">
+          <fa-icon [icon]="faDoorOpen"></fa-icon>
+        </div>
+        <div class="ps-1">
+          Disconnect
+        </div>
+      </dropdown-item>
+
+    </dropdown-menu>
+  </dropdown>
+  -->
+  
+  <div
+    ngbDropdown
+    class="btn-group"
+  >
+    <button
+      ngbDropdownToggle
+      id="user-menu-button"  
+      class="dropdown-toggle btn btn-light rounded-circle"
+    ></button>
+
+    <ul ngbDropdownMenu class="dropdown-menu dropdown-menu-end border-0 p-2" aria-labelledby="user-menu-button">
+      
+      <li class="dropdown-item rounded">
+        <a routerLink="/profile" class="d-flex align-items-center">
+          <avatar size="2x"></avatar>
+          <div class="ps-2">
+            <div class="username fw-bold">
+              {{ authService.connectedUser?.username }}
+            </div>
+            <div class="text-muted">See your profile</div>
+          </div>
+        </a>
+      </li>
+      
+      <li class="divider"><hr class="dropdown-divider"></li>
+
+      <li class="dropdown-item rounded">
+        <a routerLink="/settings" class="d-flex align-items-center">
+          <div class="bg-light rounded-circle p-1 settings-icon">
+            <fa-icon [icon]="faCog"></fa-icon>
+          </div>
+          <div class="ps-1">
+            Settings
+          </div>
+        </a>
+      </li>
+
+      <li class="dropdown-item rounded">
+        <a routerLink="/logout" class="d-flex align-items-center">
+          <div class="bg-light rounded-circle p-1 disconnect-icon">
+            <fa-icon [icon]="faDoorOpen"></fa-icon>
+          </div>
+          <div class="ps-1">
+            Disconnect
+          </div>
+        </a>
+      </li>
+    
+    </ul>
   </div>
+
 </div>
 

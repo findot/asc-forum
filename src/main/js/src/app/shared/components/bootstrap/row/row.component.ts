@@ -1,15 +1,15 @@
-import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 import { CoerceBoolean } from 'src/app/core/lib';
-import { Order, Sized, SizedComponent } from '../../../model/Sizing';
+import { Rule, Sized, SizedComponent } from '../../../../../util/Sizing';
 
 
 @Component({ selector: 'row', templateUrl: './row.component.html' })
 export class RowComponent extends SizedComponent {
 
-  @Input('cols')      cols    ?: Order | Sized;
-  @Input('gutter')    gutter  ?: Order | Sized;
-  @Input('x-gutter')  xGutter ?: Order | Sized;
-  @Input('y-gutter')  yGutter ?: Order | Sized;
+  @Input('cols')      cols    ?: Rule | Sized;
+  @Input('gutter')    gutter  ?: Rule | Sized;
+  @Input('x-gutter')  xGutter ?: Rule | Sized;
+  @Input('y-gutter')  yGutter ?: Rule | Sized;
   @CoerceBoolean() @Input('no-gutter') noGutters!: boolean | string; 
 
   @HostBinding('class') get _class(): string {

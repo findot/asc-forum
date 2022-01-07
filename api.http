@@ -139,3 +139,10 @@ Accept: application/json
 {
     "content": "Much agreed, I love waffles"
 }
+
+###
+
+# @name searchPost
+GET http://localhost:8080/api/posts/search?title=two
+content-type: application/json
+Accept: application/json

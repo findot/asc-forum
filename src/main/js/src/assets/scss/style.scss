@@ -10,6 +10,25 @@ html, body {
   overflow: hidden;
 }
 
+.app-content {
+  height: calc(100% - 68px); // FIXME - Won't work on old browsers
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+}
+
+.app-content::-webkit-scrollbar {
+  width: .8rem;
+}
+
+.app-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.app-content::-webkit-scrollbar-thumb {
+  background-color: theme.$primary;
+}
+
 body {
   font-family: 'Lato', sans-serif;
   background: theme.$light;
@@ -22,6 +41,11 @@ p, h1, h2, h3, h4, h5, h6 {
 *::selection {
   background-color: theme.$primary;
   color: theme.$light;
+}
+
+.bg-primary > *::selection {
+  background-color: theme.$light;
+  color: theme.$primary;
 }
 
 container, row, column {

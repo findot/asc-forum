@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/core/services/auth.service';
 
@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {}
+
+  @HostBinding('style') _hostStyle = 'height: 100%;';
 
   ngOnInit(): void {}
 

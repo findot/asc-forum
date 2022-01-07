@@ -1,10 +1,5 @@
 @use "../../../../assets/scss/variables";
 
 .app-flux {
-  
-  height: calc(100% - 100px); // FIXME - Won't work on old browsers
   background: variables.$light;
-
-  overflow-y: scroll;
-
 }

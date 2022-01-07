@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Post } from '../models/Post'
 import { forkJoin, Observable, of } from 'rxjs';
 import { AuthService } from './auth.service';
@@ -38,9 +38,14 @@ export class ApiService {
    *                 is already handled
    * @returns The observable of the request
    */
-  private get<T>(endpoint: string): Observable<T> {
+  private get<T>(endpoint: string, params: { [key: string]: any } = {}): Observable<T> {
+    let rqParams = new HttpParams();
+    for (const [k, v] of Object.entries(params))
+      rqParams = rqParams.set(k, v);
+    
     return this.httpClient.get<T>(`${this.url}${endpoint}`, {
-      headers: this.headers
+      headers: this.headers,
+      params
     });
   }
 
@@ -204,6 +209,10 @@ export class ApiService {
       `/posts/${postId}/comments`,
       { content }
     );
+  }
+
+  public search(title: string): Observable<Post[]> {
+    return this.get<Post[]>('/posts/search', { title });
   }
 
 }

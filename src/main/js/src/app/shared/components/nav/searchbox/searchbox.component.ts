@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Post } from 'src/app/core/models/Post';
+import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
   selector: 'app-searchbox',
@@ -11,14 +13,19 @@ export class SearchboxComponent implements OnInit {
   faSearch = faSearch;
 
   searched = '';
+  found: Post[] = [];
 
-  constructor() { }
+  constructor(
+    private apiService: ApiService
+  ) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-    console.log("Searching " + this.searched);
+    this.apiService
+      .search(this.searched)
+      .subscribe(found => { this.found = found; });
   }
 
 }

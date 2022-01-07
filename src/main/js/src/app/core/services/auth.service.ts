@@ -53,7 +53,10 @@ export class AuthService extends StoredService {
     // refresh the token
     const preventionTime  = Math.max(Math.floor(remaining / 5), 5);
 
-    if (remaining < 0) return console.warn('Token expired');
+    if (remaining < 0) {
+      this.token = undefined;
+      return console.warn('Token expired');
+    }
     
     console.warn(`Token will refresh in ${Math.max(remaining - preventionTime, 0)} minute(s)`);
     this.refreshTimeout = setTimeout(() => {

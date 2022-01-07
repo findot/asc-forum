@@ -3,7 +3,8 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/f
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorHandlerService } from 'src/app/core/services/error-handler.service';
 import { RowComponent } from 'src/app/shared/components/bootstrap/row/row.component';
-import { Order, Sized, Span } from 'src/app/shared/model/Sizing';
+import { Sized, Span } from '../../../../util/Sizing';
+
 
 @Component({
   selector: 'input-row',

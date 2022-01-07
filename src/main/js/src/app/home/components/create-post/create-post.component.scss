@@ -4,13 +4,13 @@
 
   .submission-complete {
     max-height: 0px;
-    transition: max-height .15s ease-in;
+    transition: max-height .25s ease;
     overflow: hidden;
   }
 
   &:focus-within .submission-complete {
     max-height: 800px;
-    transition: max-height .15s ease-out;
+    transition: max-height .5s ease;
   }
 
   /*

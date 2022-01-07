@@ -2,11 +2,11 @@
 
 .app-login-container {
   
+  height: 100%;
+
   background: variables.$primary;
   background: linear-gradient(45deg, variables.$primary 0%, lighten(variables.$primary, 15) 50%, variables.$primary 100%);;
   color: variables.$light;
-  
-  height: calc(100% - 100px);
 
 }
 

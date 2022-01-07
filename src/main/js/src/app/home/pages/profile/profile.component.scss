@@ -1,17 +1,8 @@
 @use '../../../../assets/scss/variables';
 
-.profile-content {
-  height: calc(100% - 68px - 40px);
-}
-
-.row, .profile-publications {
-  height: 100%;
-}
 
 .profile-publications {
-  padding: 0 1rem;;
-  height: calc(100% - 88px);
-  overflow-y: scroll;
+  padding: 0 1rem;
 }
 
 .profile {
@@ -21,18 +12,6 @@
     margin-top: -70px;
     margin-bottom: 15px;
   }
-}
-
-.profile-publications::-webkit-scrollbar {
-  width: 1em;
-}
-
-.profile-publications::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.profile-publications::-webkit-scrollbar-thumb {
-  background-color: variables.$primary;
 }
 
 .publication {

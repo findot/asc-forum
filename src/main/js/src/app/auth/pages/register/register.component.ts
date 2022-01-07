@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -48,6 +48,8 @@ export class RegisterComponent implements OnInit {
 
   submission: Submission<null> | null = null;
   submissionStateTransitionTimer  = 4000;
+
+  @HostBinding('style') _hostStyle = 'height: 100%;';
 
   // CTOR
 
